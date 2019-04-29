@@ -12,8 +12,7 @@ public class MessCompleteDetail {
     String remarks;
     String service;
     String feast;
-    int reachability[] = new int[20];
-    int area[]= new int[20];
+
     public MessCompleteDetail(String address, String contactNumber, String guestTiffinCharges, String menus, String messName, String messOwner, String messRate, String messType, String remarks, String service, String feast) {
         this.address = address;
         this.contactNumber = contactNumber;

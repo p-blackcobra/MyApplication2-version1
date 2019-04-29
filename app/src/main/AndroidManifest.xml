@@ -19,7 +19,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".contact" />
-        <activity android:name=".SignUp"></activity>
+        <activity android:name=".SignUp" />
+        <activity android:name=".FragmentOne" />
+        <activity android:name=".FragmentTwo"></activity>
     </application>
 
 </manifest>

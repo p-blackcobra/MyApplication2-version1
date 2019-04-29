@@ -29,14 +29,13 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class Home extends Fragment {
+    public static String str = "";
     private static final String TAG = "HomeActivity";
     private ListView mMessListView;
     private MessAdapter mMessAdapter;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mMessDatabaseReference;
-    private ChildEventListener childEventListener;
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mToggle;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -81,60 +80,16 @@ public class Home extends Fragment {
                 // Find the current earthquake that was clicked on
                 MessAbstract currentMess = mMessAdapter.getItem(position);
                 String messName= currentMess.getMessName();
-                String messOwner= currentMess.getMessOwner();
-                String messAddress= currentMess.getAddress();
-                String messRate= currentMess.getMessRate();
-                String messType= currentMess.getMessType();
-                String contactNumber= currentMess.getContactNumber();
-                String feast= currentMess.getFeast();
-                String guestTiffinCharges= currentMess.getGuestTiffinCharges();
-                String menus= currentMess.getMenus();
-                String remarks= currentMess.getRemarks();
-                String service= currentMess.getService();
-                // Convert the String URL into a URI object (to pass into the Intent constructor)
+                str=messName;
+                                // Convert the String URL into a URI object (to pass into the Intent constructor)
                 Intent anotherActivityIntent = new Intent(getActivity(), contact.class);
                 anotherActivityIntent.putExtra("MESSNAME",messName);
-                anotherActivityIntent.putExtra("MESSOWNER",messOwner);
-                anotherActivityIntent.putExtra("MESSADD",messAddress);
-                anotherActivityIntent.putExtra("MESSRATE",messRate);
-                anotherActivityIntent.putExtra("MESSTYPE",messType);
-                anotherActivityIntent.putExtra("MESSCNO",contactNumber);
-                anotherActivityIntent.putExtra("MESSFEAST",feast);
-                anotherActivityIntent.putExtra("MESSGTC",guestTiffinCharges);
-                anotherActivityIntent.putExtra("MESSMENUS",menus);
-                anotherActivityIntent.putExtra("MESSRMRK",remarks);
-                anotherActivityIntent.putExtra("MESSSRV",service);
 
                 startActivity(anotherActivityIntent);
 
-                // Create a new intent to view the earthquake URI
-
-
-                // Send the intent to launch a new activity
 
             }
         });
-//if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//    NotificationChannel channel = new NotificationChannel("MyNotifications","MyNotification", NotificationManager.IMPORTANCE_DEFAULT);
-//    NotificationManager manager = getSystemService(NotificationManager.class);
-//    manager.createNotificationChannel(channel);
-//        }
-//
-//        FirebaseMessaging.getInstance().subscribeToTopic("general")
-//                .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<Void> task) {
-//                        String msg = "SuccessFull";
-//                        if (!task.isSuccessful()) {
-//                            msg ="Failed";
-//                        }
-//                        Toast.makeText(MainActivity.this, msg, Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-
-        //returning our layout file
-        //change R.layout.yourlayoutfilename for each of your fragments
-        //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle("Home");
     }
 }
