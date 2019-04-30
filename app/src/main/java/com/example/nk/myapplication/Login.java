@@ -1,11 +1,11 @@
 package com.example.nk.myapplication;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import android.content.SharedPreferences;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,7 +25,10 @@ public class Login extends Fragment {
     EditText edtPhone, edtPassword;
     Button btnSignIn;
     TextView txtsignUp;
-
+    public static final String MyPREFERENCES = "MyPrefs" ;
+    public static final String Password = "Password";
+    public static final String Phone = "Phone";
+    SharedPreferences sharedpreferences;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -42,17 +45,51 @@ public class Login extends Fragment {
         edtPhone = (EditText) getView().findViewById(R.id.edtPhone);
         btnSignIn = (Button) getView().findViewById(R.id.btnSignIn);
         txtsignUp = (TextView) getView().findViewById(R.id.txtSignUp);
-        // Init Firebase
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference table_user = database.getReference("User");
+        /*
+         * Check if we successfully logged in before.
+         * If we did, redirect to home page
+         */
+        SharedPreferences login = getContext().getSharedPreferences(Login.MyPREFERENCES,getContext().MODE_PRIVATE);
+            final String phone=login.getString("Phone", "").toString();
+            final String password=login.getString("Password","").toString();
+            if(phone.isEmpty() && password.isEmpty()) {
 
-        txtsignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent signUp = new Intent(getContext(),SignUp.class);
-                startActivity(signUp);
             }
-        });
+            else
+            {
+                // Init Firebase
+                if (Common.isConnectedToInternet(getContext())) {
+                    table_user.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+
+                            //check if user exist or not
+                            if (dataSnapshot.child(phone.toString()).exists()) {
+                                Fragment home = new Home();
+                                getFragmentManager().beginTransaction().replace(R.id.content_frame, home).setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                } else {
+                    Toast.makeText(getContext(), "Internet Connection Failed...", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+            }
+            txtsignUp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Fragment signUp = new SignUp();
+                    getFragmentManager().beginTransaction().replace(R.id.content_frame, signUp).setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+
+                }
+            });
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -74,6 +111,11 @@ public class Login extends Fragment {
                                 User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
                                 user.setPhone(edtPhone.getText().toString()); // set Phone
                                 if (user.getPassword().equals(edtPassword.getText().toString())) {
+                                    SharedPreferences sharedpreferences = getContext().getSharedPreferences(Login.MyPREFERENCES, getContext().MODE_PRIVATE);
+                                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                                    editor.putString(Password, user.getPassword());
+                                    editor.putString(Phone, user.getPhone());
+                                    editor.commit();
                                     Toast.makeText(getContext(), "Login Successfull...", Toast.LENGTH_SHORT).show();
                                     Common.currentUser = user;
                                     Fragment home = new Home();

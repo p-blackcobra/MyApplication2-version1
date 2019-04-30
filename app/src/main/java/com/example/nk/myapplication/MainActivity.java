@@ -3,6 +3,7 @@ package com.example.nk.myapplication;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -47,13 +48,14 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    SharedPreferences settings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        settings = getApplicationContext().getSharedPreferences(Login.MyPREFERENCES, MODE_PRIVATE);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -80,6 +82,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        /*final String phone=settings.getString("Phone", "").toString();
+        final String password=settings.getString("Password","").toString();
+        if(!(phone.isEmpty() && password.isEmpty()))
+        {
+            menu.findItem(R.id.nav_login).setVisible(false);
+            menu.findItem(R.id.nav_logout).setVisible(true);
+        }
+        else
+        {
+            menu.findItem(R.id.nav_login).setVisible(true);
+            menu.findItem(R.id.nav_logout).setVisible(false);
+        }*/
         return true;
     }
 
@@ -117,7 +131,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 fragment = new Login();
                 break;
         }
-
         //replacing the fragment
         if (fragment != null) {
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -132,7 +145,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
-        displaySelectedScreen(item.getItemId());
+        if(item.getItemId()==R.id.nav_logout)
+        {
+            settings.edit().clear().commit();
+            Toast.makeText(getApplicationContext(), "Logout Successfull...", Toast.LENGTH_SHORT).show();
+            displaySelectedScreen(R.id.nav_home);
+        }
+        else {
+            displaySelectedScreen(item.getItemId());
+        }
         return true;
     }
 }
