@@ -13,11 +13,15 @@ public class MessAbstract {
     private String service;
     private String feast;
 
+
+
+    private String messUID;
+
     public MessAbstract() {
 
     }
 
-    public MessAbstract(String messName, String messType, String messRate, String address, String contactNumber, String guestTiffinCharges, String menus, String messOwner, String remarks, String service, String feast) {
+    public MessAbstract(String messName, String messType, String messRate, String address, String contactNumber, String guestTiffinCharges, String menus, String messOwner, String remarks, String service, String feast,String messUID) {
         this.messName = messName;
         this.messType = messType;
         this.messRate = messRate;
@@ -29,6 +33,7 @@ public class MessAbstract {
         this.remarks = remarks;
         this.service = service;
         this.feast = feast;
+        this.messUID = messUID;
     }
 
     public String getMessName() {
@@ -117,5 +122,12 @@ public class MessAbstract {
 
     public void setFeast(String feast) {
         this.feast = feast;
+    }
+    public String getMessUID() {
+        return messUID;
+    }
+
+    public void setMessUID(String messUID) {
+        this.messUID = messUID;
     }
 }

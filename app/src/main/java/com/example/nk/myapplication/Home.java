@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -36,6 +37,7 @@ public class Home extends Fragment {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mMessDatabaseReference;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,6 +48,22 @@ public class Home extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+//
+//        final ImageView favheart;
+//        favheart = (ImageView)getView().findViewById(R.id.addtf_icon) ;
+//        favheart.setOnClickListener(new View.OnClickListener() {
+//            int i=0;
+//            public void onClick(View v) {
+//                if(i==0) {
+//                    favheart.setImageResource(R.drawable.ic_favorite_red_24dp);
+//                    i = 1;
+//                }
+//                else {
+//                    i=0;
+//                    favheart.setImageResource(R.drawable.ic_favorite_border_black_24dp);
+//                }
+//            }
+//        });
         mMessListView = (ListView) getView().findViewById(R.id.messageListView);
         // Initialize Firebase components
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -79,11 +97,11 @@ public class Home extends Fragment {
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 // Find the current earthquake that was clicked on
                 MessAbstract currentMess = mMessAdapter.getItem(position);
-                String messName= currentMess.getMessName();
-                str=messName;
+                String messUID= currentMess.getMessUID();
+                str=messUID;
                                 // Convert the String URL into a URI object (to pass into the Intent constructor)
                 Intent anotherActivityIntent = new Intent(getActivity(), contact.class);
-                anotherActivityIntent.putExtra("MESSNAME",messName);
+                anotherActivityIntent.putExtra("MESSNAME",currentMess.getMessName());
 
                 startActivity(anotherActivityIntent);
 

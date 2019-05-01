@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+<LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
     android:layout_margin="5dp"
     android:orientation="horizontal"
     android:background="#b4f1f1f1"
-    android:layout_marginBottom="10dp">
+    android:layout_marginBottom="10dp"
+    android:id="@+id/detss">
 
     <ImageView
         android:id="@+id/mess_tiffin"
@@ -17,11 +23,12 @@
 
         />
 <LinearLayout
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_toLeftOf="@id/mess_tiffin"
     android:orientation="vertical"
-    android:paddingLeft="10dp">
+    android:paddingLeft="10dp"
+    android:id="@+id/dets">
     <TextView
 
         android:id="@+id/mess_name"
@@ -52,4 +59,44 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         tools:text="Rate" />
 </LinearLayout>
+
+
+
+
+
 </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@color/green"
+        android:layout_alignParentRight="true"
+        android:id="@+id/ratins"
+        >
+    <ImageView
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_star_black_24dp"
+        android:background="@color/green"
+        />
+    <TextView
+
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4.3"
+       android:textSize="15sp"
+
+        android:textColor="@color/white"
+        android:background="@color/green"
+        />
+    </LinearLayout>
+    <ImageView
+        android:layout_below="@id/ratins"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:src="@drawable/ic_favorite_border_black_24dp"
+        android:id="@+id/addtf_icon"/>
+</RelativeLayout>

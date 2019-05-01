@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.google.firebase.database.DataSnapshot;
@@ -28,6 +29,7 @@ public class FragmentOne extends Fragment {
     private TextView messRateTextView;
     private TextView remarksTextiew;
     private  TextView messTypeTextView;
+
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mMessDatabaseReference;
@@ -64,7 +66,7 @@ public class FragmentOne extends Fragment {
 
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     MessCompleteDetail messCompleteDetail = ds.getValue(MessCompleteDetail.class);
-                    if((messCompleteDetail.getMessName())== name )
+                    if((messCompleteDetail.getMessUID())== name )
                     {
                         messNameView.setText(messCompleteDetail.getMessName());
                         feastTextView.setText(messCompleteDetail.getFeast());
@@ -87,15 +89,7 @@ public class FragmentOne extends Fragment {
             }
         });
 
-//        messNameView.setText(getIntent().getExtras().getString("MESSNAME"));
-//        feastTextView.setText(getIntent().getExtras().getString("MESSFEAST"));
-//        servicesTextView.setText(getIntent().getExtras().getString("MESSSRV"));
-//           guestTiffinChargesTextView.setText(getIntent().getExtras().getString("MESSGTC"));
-//        messOwnerTextView.setText(getIntent().getExtras().getString("MESSOWNER"));
-//        messRateTextView.setText(getIntent().getExtras().getString("MESSRATE"));
-//        remarksTextiew.setText(getIntent().getExtras().getString("MESSRMRK"));
-//        menusTextView.setText(getIntent().getExtras().getString("MESSMENUS"));
-//        messTypeTextView.setText(getIntent().getExtras().getString("MESSTYPE"));
+
 
     }
 }
