@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.example.nk.myapplication.Common.Common;
 import com.example.nk.myapplication.Model.User;
 
-public class SignUp extends Fragment {
+public class  SignUp extends Fragment {
 
     EditText edtPhone, edtName, edtPassword, edtEmail;
     Button btnSignUp;
@@ -84,6 +84,6 @@ public class SignUp extends Fragment {
                 }
             }
         });
-
+        getActivity().setTitle("Register User");
     }
 }
