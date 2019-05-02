@@ -106,6 +106,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            final String password=settings.getString("Password","").toString();
+            if(password.isEmpty())
+            {
+                Toast.makeText(getApplicationContext(), "You Must Login First...", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                displaySelectedScreen(R.id.action_settings);
+            }
             return true;
         }
 
@@ -129,6 +138,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_login:
                 fragment = new Login();
+                break;
+            case R.id.action_settings:
+                fragment=new Settings();
                 break;
         }
         //replacing the fragment

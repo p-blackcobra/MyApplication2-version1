@@ -1,6 +1,7 @@
 package com.example.nk.myapplication;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,7 +25,7 @@ import com.example.nk.myapplication.Model.User;
 public class Login extends Fragment {
     EditText edtPhone, edtPassword;
     Button btnSignIn;
-    TextView txtsignUp;
+    TextView txtsignUp,txtForgot;
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String Password = "Password";
     public static final String Phone = "Phone";
@@ -45,13 +46,14 @@ public class Login extends Fragment {
         edtPhone = (EditText) getView().findViewById(R.id.edtPhone);
         btnSignIn = (Button) getView().findViewById(R.id.btnSignIn);
         txtsignUp = (TextView) getView().findViewById(R.id.txtSignUp);
+        txtForgot = (TextView) getView().findViewById(R.id.txtForgot);
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference table_user = database.getReference("User");
         /*
          * Check if we successfully logged in before.
          * If we did, redirect to home page
          */
-        SharedPreferences login = getContext().getSharedPreferences(Login.MyPREFERENCES,getContext().MODE_PRIVATE);
+        final SharedPreferences login = getContext().getSharedPreferences(Login.MyPREFERENCES,getContext().MODE_PRIVATE);
             final String phone=login.getString("Phone", "").toString();
             final String password=login.getString("Password","").toString();
             if(phone.isEmpty() && password.isEmpty()) {
@@ -82,7 +84,15 @@ public class Login extends Fragment {
                     return;
                 }
             }
-            txtsignUp.setOnClickListener(new View.OnClickListener() {
+        txtForgot.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= new Intent(getContext(),ForgotPassword.class);
+                startActivity(intent);
+            }
+        });
+
+        txtsignUp.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Fragment signUp = new SignUp();
@@ -111,10 +121,11 @@ public class Login extends Fragment {
                                 User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
                                 user.setPhone(edtPhone.getText().toString()); // set Phone
                                 if (user.getPassword().equals(edtPassword.getText().toString())) {
-                                    SharedPreferences sharedpreferences = getContext().getSharedPreferences(Login.MyPREFERENCES, getContext().MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                                    SharedPreferences.Editor editor = login.edit();
                                     editor.putString(Password, user.getPassword());
                                     editor.putString(Phone, user.getPhone());
+                                    editor.putString("EmailId",user.getEmailId());
+                                    editor.putString("Name",user.getName());
                                     editor.commit();
                                     Toast.makeText(getContext(), "Login Successfull...", Toast.LENGTH_SHORT).show();
                                     Common.currentUser = user;

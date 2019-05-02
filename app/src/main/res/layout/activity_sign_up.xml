@@ -15,7 +15,7 @@
             android:orientation="vertical"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_centerInParent="true"
+            android:layout_marginTop="50dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/linearLayout2">
@@ -66,12 +66,25 @@
                 android:inputType="textPassword"
                 android:layout_marginTop="10dp"
                 />
+            <EditText
+                android:id="@+id/edtCode"
+                android:hint="Enter OTP"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColorHint="@android:color/white"
+                android:text=""
+                android:textColor="@android:color/white"
+                android:textSize="34sp"
+                android:inputType="text"
+                android:layout_marginTop="10dp"
+                />
+
 
         </LinearLayout>
 
         <Button
-            android:id="@+id/btnSignUp"
-            android:text="Register"
+            android:id="@+id/btnOTP"
+            android:text="Generate OTP"
             android:textSize="20dp"
             android:textColor="@android:color/white"
             android:layout_marginLeft="8dp"
@@ -81,6 +94,21 @@
             android:shadowColor="@color/black"
             android:background="@color/colorPrimary"
             android:layout_below="@id/linearLayout2"           />
+
+
+        <Button
+            android:id="@+id/btnSignUp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/linearLayout2"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="55dp"
+            android:layout_marginRight="8dp"
+            android:background="@color/colorPrimary"
+            android:shadowColor="@color/black"
+            android:text="@string/verify_sign_up"
+            android:textColor="@android:color/white"
+            android:textSize="20dp" />
 
     </RelativeLayout>
 
