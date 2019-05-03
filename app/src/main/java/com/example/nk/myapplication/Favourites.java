@@ -52,7 +52,7 @@ i=0;
 if(userMob.equals("abcd9876")) { }
 else {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mFavoritesReference = mFirebaseDatabase.getReference().child("favourate").child(Login.UserNo).child("messID");
+        mFavoritesReference = mFirebaseDatabase.getReference().child("favourate").child(userMob).child("messID");
         mFavoritesReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

@@ -54,36 +54,36 @@ public class Login extends Fragment {
          * If we did, redirect to home page
          */
         final SharedPreferences login = getContext().getSharedPreferences(Login.MyPREFERENCES,getContext().MODE_PRIVATE);
-            final String phone=login.getString("Phone", "").toString();
-            final String password=login.getString("Password","").toString();
-            if(phone.isEmpty() && password.isEmpty()) {
+        final String phone=login.getString("Phone", "").toString();
+        final String password=login.getString("Password","").toString();
+        if(phone.isEmpty() && password.isEmpty()) {
 
-            }
-            else
-            {
-                // Init Firebase
-                if (Common.isConnectedToInternet(getContext())) {
-                    table_user.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
+        }
+        else
+        {
+            // Init Firebase
+            if (Common.isConnectedToInternet(getContext())) {
+                table_user.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
 
-                            //check if user exist or not
-                            if (dataSnapshot.child(phone.toString()).exists()) {
-                                Fragment home = new Home();
-                                getFragmentManager().beginTransaction().replace(R.id.content_frame, home).setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
-                            }
+                        //check if user exist or not
+                        if (dataSnapshot.child(phone.toString()).exists()) {
+                            Fragment home = new Home();
+                            getFragmentManager().beginTransaction().replace(R.id.content_frame, home).setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
                         }
+                    }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
 
-                        }
-                    });
-                } else {
-                    Toast.makeText(getContext(), "Internet Connection Failed...", Toast.LENGTH_SHORT).show();
-                    return;
-                }
+                    }
+                });
+            } else {
+                Toast.makeText(getContext(), "Internet Connection Failed...", Toast.LENGTH_SHORT).show();
+                return;
             }
+        }
         txtForgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,13 +93,13 @@ public class Login extends Fragment {
         });
 
         txtsignUp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Fragment signUp = new SignUp();
-                    getFragmentManager().beginTransaction().replace(R.id.content_frame, signUp).setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+            @Override
+            public void onClick(View view) {
+                Fragment signUp = new SignUp();
+                getFragmentManager().beginTransaction().replace(R.id.content_frame, signUp).setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
 
-                }
-            });
+            }
+        });
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -129,9 +129,11 @@ public class Login extends Fragment {
                                     editor.commit();
                                     Toast.makeText(getContext(), "Login Successfull...", Toast.LENGTH_SHORT).show();
                                     Common.currentUser = user;
-                                    Fragment home = new Home();
-                                    getFragmentManager().beginTransaction().replace(R.id.content_frame, home).setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
-                                    } else {
+                                    Intent intent=new Intent(getContext(),MainActivity.class);
+                                    startActivity(intent);
+                                    //Fragment home = new Home();
+                                    //getFragmentManager().beginTransaction().replace(R.id.content_frame, home).setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+                                } else {
                                     Toast.makeText(getContext(), "SignIn failed...", Toast.LENGTH_SHORT).show();
                                 }
                             } else {

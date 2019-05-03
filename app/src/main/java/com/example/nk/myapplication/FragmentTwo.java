@@ -76,9 +76,9 @@ public class FragmentTwo extends Fragment {
                 SharedPreferences sharedpreferences = getContext().getSharedPreferences(Login.MyPREFERENCES, getContext().MODE_PRIVATE);
                 String ph=sharedpreferences.getString("Phone","");
                 if(ph.length()<1) {
-                    Toast.makeText(getContext(),"Please Login...",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(),"Please Must Login First...",Toast.LENGTH_SHORT).show();
                 }
-                String username=sharedpreferences.getString("Uname","");
+                String username=sharedpreferences.getString("Name","");
 
                 float rating = ratingBar.getRating();
                 String comment =  commentView.getText().toString();

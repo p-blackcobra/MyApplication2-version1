@@ -67,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         hideItem();
         displaySelectedScreen(R.id.nav_home);
     }
-
     private void hideItem()
     {
         final String phone=settings.getString("Phone", "").toString();
@@ -79,11 +78,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             nav_Menu.findItem(R.id.nav_login).setVisible(false);
             nav_Menu.findItem(R.id.nav_logout).setVisible(true);
         }
-        else
-        {
-            nav_Menu.findItem(R.id.nav_login).setVisible(true);
-            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
-        }
+
     }
     @Override
     public void onBackPressed() {
@@ -178,7 +173,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         {
             settings.edit().clear().commit();
             Toast.makeText(getApplicationContext(), "Logout Successfull...", Toast.LENGTH_SHORT).show();
-            displaySelectedScreen(R.id.nav_home);
+            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
+            startActivity(intent);
         }
         else {
             displaySelectedScreen(item.getItemId());
