@@ -28,7 +28,7 @@
                 android:textColorHint="@android:color/white"
                 android:text=""
                 android:textColor="@android:color/white"
-                android:textSize="30sp"
+                android:textSize="34sp"
                 android:inputType="text"
                 />
             <EditText
@@ -39,7 +39,7 @@
                 android:textColorHint="@android:color/white"
                 android:text=""
                 android:textColor="@android:color/white"
-                android:textSize="30sp"
+                android:textSize="34sp"
                 android:inputType="text"
                 />
             <EditText
@@ -50,7 +50,7 @@
                 android:textColorHint="@android:color/white"
                 android:text=""
                 android:textColor="@android:color/white"
-                android:textSize="30sp"
+                android:textSize="34sp"
                 android:inputType="phone"
                 />
 
@@ -62,7 +62,7 @@
                 android:textColorHint="@android:color/white"
                 android:text=""
                 android:textColor="@android:color/white"
-                android:textSize="30sp"
+                android:textSize="34sp"
                 android:inputType="textPassword"
                 android:layout_marginTop="10dp"
                 />
@@ -74,7 +74,7 @@
                 android:textColorHint="@android:color/white"
                 android:text=""
                 android:textColor="@android:color/white"
-                android:textSize="30sp"
+                android:textSize="34sp"
                 android:inputType="text"
                 android:layout_marginTop="10dp"
                 />
@@ -106,7 +106,7 @@
             android:layout_marginRight="8dp"
             android:background="@color/colorPrimary"
             android:shadowColor="@color/black"
-            android:text="Register"
+            android:text="@string/verify_sign_up"
             android:textColor="@android:color/white"
             android:textSize="20dp" />
 
