@@ -64,10 +64,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-
+        hideItem();
         displaySelectedScreen(R.id.nav_home);
     }
 
+    private void hideItem()
+    {
+        final String phone=settings.getString("Phone", "").toString();
+        final String password=settings.getString("Password","").toString();
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        Menu nav_Menu = navigationView.getMenu();
+        if(!(phone.isEmpty() && password.isEmpty()))
+        {
+            nav_Menu.findItem(R.id.nav_login).setVisible(false);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(true);
+        }
+        else
+        {
+            nav_Menu.findItem(R.id.nav_login).setVisible(true);
+            nav_Menu.findItem(R.id.nav_logout).setVisible(false);
+        }
+    }
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
