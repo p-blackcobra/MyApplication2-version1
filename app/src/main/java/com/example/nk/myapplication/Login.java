@@ -28,6 +28,8 @@ public class Login extends Fragment {
     public static final String MyPREFERENCES = "MyPrefs" ;
     public static final String Password = "Password";
     public static final String Phone = "Phone";
+    public static final String Uname = "Unamee";
+    public static String UserNo = "";
     SharedPreferences sharedpreferences;
     @Nullable
     @Override
@@ -51,7 +53,7 @@ public class Login extends Fragment {
          * Check if we successfully logged in before.
          * If we did, redirect to home page
          */
-        SharedPreferences login = getContext().getSharedPreferences(Login.MyPREFERENCES,getContext().MODE_PRIVATE);
+        final SharedPreferences login = getContext().getSharedPreferences(Login.MyPREFERENCES,getContext().MODE_PRIVATE);
             final String phone=login.getString("Phone", "").toString();
             final String password=login.getString("Password","").toString();
             if(phone.isEmpty() && password.isEmpty()) {
@@ -93,7 +95,8 @@ public class Login extends Fragment {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+            //Store the Users phone no
+                UserNo = edtPhone.getText().toString();
                 if (Common.isConnectedToInternet(getContext())) {
 
                     final ProgressDialog mDialog = new ProgressDialog(getContext());
@@ -111,11 +114,12 @@ public class Login extends Fragment {
                                 User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
                                 user.setPhone(edtPhone.getText().toString()); // set Phone
                                 if (user.getPassword().equals(edtPassword.getText().toString())) {
-                                    SharedPreferences sharedpreferences = getContext().getSharedPreferences(Login.MyPREFERENCES, getContext().MODE_PRIVATE);
-                                    SharedPreferences.Editor editor = sharedpreferences.edit();
+                                    SharedPreferences.Editor editor = login.edit();
                                     editor.putString(Password, user.getPassword());
                                     editor.putString(Phone, user.getPhone());
+                                    editor.putString("Uname", user.getName());
                                     editor.commit();
+
                                     Toast.makeText(getContext(), "Login Successfull...", Toast.LENGTH_SHORT).show();
                                     Common.currentUser = user;
                                     Fragment home = new Home();

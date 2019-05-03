@@ -2,8 +2,15 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/favorites_menu"
         android:orderInCategory="100"
+        android:title="Favorites"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_favorite_white_24dp"
+        />
+    <item
+        android:id="@+id/action_settings"
+        android:orderInCategory="300"
         android:title="@string/action_settings"
         app:showAsAction="never" />
 </menu>

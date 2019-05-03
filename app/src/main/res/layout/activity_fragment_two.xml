@@ -21,7 +21,6 @@
             android:layout_marginBottom="5dp"
             android:clickable="false"
             android:divider="@android:color/transparent"
-            android:scrollbars="horizontal"
             android:stackFromBottom="false"
             android:transcriptMode="alwaysScroll"
             tools:listitem="@layout/item_reviews"
@@ -42,20 +41,20 @@
         />
     <RatingBar
         android:layout_below="@id/textView1"
-        android:id="@+id/ratingBar"
+        android:id="@+id/ratingBarView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <EditText
-        android:layout_below="@id/ratingBar"
-        android:id="@+id/textView2"
+        android:layout_below="@id/ratingBarView"
+        android:id="@+id/CommentText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
 
     <Button
-        android:layout_below="@id/textView2"
-        android:id="@+id/button"
+        android:layout_below="@id/CommentText"
+        android:id="@+id/buttonSubmit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Submit" />

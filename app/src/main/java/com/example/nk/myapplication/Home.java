@@ -69,8 +69,6 @@ public class Home extends Fragment {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mMessDatabaseReference = mFirebaseDatabase.getReference().child("messdet");
 
-
-
         // Initialize message ListView and its adapter
         List<MessAbstract> mess = new ArrayList<>();
         mMessAdapter = new MessAdapter(getActivity(), R.layout.item_mess,mess);
@@ -81,7 +79,6 @@ public class Home extends Fragment {
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     MessAbstract messAbstract = ds.getValue(MessAbstract.class);
                     mMessAdapter.add(messAbstract);
-                    Log.d("TAG", messAbstract.getMessName());
                 }
             }
 
