@@ -1,7 +1,9 @@
 package com.example.nk.myapplication;
 
+import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -128,6 +130,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 displaySelectedScreen(R.id.action_settings);
             }
             return true;
+        }
+        else if(id == R.id.favorites_menu)
+        {
+            Fragment fragment = new Favourites();
+            if (fragment != null) {
+                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                ft.replace(R.id.content_frame, fragment);
+                ft.commit();
+            }
         }
 
         return super.onOptionsItemSelected(item);

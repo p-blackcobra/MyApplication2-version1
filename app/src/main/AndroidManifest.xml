@@ -18,8 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".contact" />
-        <activity android:name=".SignUp"></activity>
+        <activity android:name=".contact"
+            android:parentActivityName=".MainActivity"/>
+
         <activity android:name=".ForgotPassword"></activity>
     </application>
 

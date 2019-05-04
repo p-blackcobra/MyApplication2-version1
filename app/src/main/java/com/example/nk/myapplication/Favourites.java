@@ -58,8 +58,8 @@ else {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     arr[i] = ds.getValue(String.class);
-                    Log.d(TAG, arr[i]);
-                    Log.d(TAG, String.valueOf(i));
+                    Log.w(TAG, "Size of favorites is "+ arr.length);
+
                     i++;
                 }
 
@@ -89,8 +89,9 @@ j=0;
                     if (ds.getKey().equals(arr[j])) {
                         MessAbstract messAbstract = ds.getValue(MessAbstract.class);
                         mMessAdapter.add(messAbstract);
+                        j++;
                     }
-                    j++;
+
                 }
             }
             @Override

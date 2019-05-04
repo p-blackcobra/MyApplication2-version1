@@ -19,7 +19,8 @@ public class contact extends AppCompatActivity implements TabLayout.OnTabSelecte
         setContentView(R.layout.activity_contact);
         Toolbar toolbar = (Toolbar)findViewById(R.id.app_bar);
         setSupportActionBar(toolbar);
-        setTitle(getIntent().getExtras().getString("MESSNAME"));
+        setTitle(Home.str);
+getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         tabLayout = (TabLayout)findViewById(R.id.tabLayout);
         //Adding the tabs using addTab() method
         tabLayout.addTab(tabLayout.newTab().setText("Mess Details"));

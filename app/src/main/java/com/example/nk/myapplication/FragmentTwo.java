@@ -57,6 +57,7 @@ public class FragmentTwo extends Fragment {
         mMessDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                mReviwsAdapter.clear();
                 for(DataSnapshot ds : dataSnapshot.getChildren()) {
                     Reviews messAbstract = ds.getValue(Reviews.class);
                     mReviwsAdapter.add(messAbstract);
