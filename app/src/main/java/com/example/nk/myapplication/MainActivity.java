@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -49,7 +50,9 @@ import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
-
+    TextView LogoHeadr ;
+    TextView UserNameHeadr ;
+    TextView EmailHeadr ;
     SharedPreferences settings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
         navigationView.setNavigationItemSelectedListener(this);
         hideItem();
         displaySelectedScreen(R.id.nav_home);
@@ -74,9 +78,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         final String phone=settings.getString("Phone", "").toString();
         final String password=settings.getString("Password","").toString();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+
         Menu nav_Menu = navigationView.getMenu();
         if(!(phone.isEmpty() && password.isEmpty()))
         {
+//            LogoHeadr =(TextView)findViewById(R.id.imageTexViewView);
+//            UserNameHeadr =(TextView)findViewById(R.id.userNameTextView);
+//            EmailHeadr =(TextView)findViewById(R.id.EmailTextView);
+//            char n = (settings.getString("Name","").toString()).charAt(0);
+//            LogoHeadr.setText(n);
+//            UserNameHeadr.setText(settings.getString("Name","").toString());
+//            EmailHeadr.setText(settings.getString("EmailId","").toString());
             nav_Menu.findItem(R.id.nav_login).setVisible(false);
             nav_Menu.findItem(R.id.nav_logout).setVisible(true);
         }
@@ -87,9 +99,21 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
         }
+        new AlertDialog.Builder(this)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Closing App")
+                .setMessage("Are you sure you want to exit this app ?")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        finish();
+                    }
+
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 
     @Override
@@ -134,7 +158,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         else if(id == R.id.favorites_menu)
         {
             Fragment fragment = new Favourites();
-            if (fragment != null) {
+
+            if((settings.getString("Phone","").toString().length())<1 )
+            {
+                Toast.makeText(getApplicationContext(), "You Must Login First...", Toast.LENGTH_SHORT).show();
+
+            }
+            else if (fragment != null) {
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
                 ft.replace(R.id.content_frame, fragment);
                 ft.commit();
