@@ -105,7 +105,7 @@ public class Login extends Fragment {
             public void onClick(View v) {
                 if(edtPassword.getText().toString().length()<1 || edtPhone.getText().toString().length()<1)
                 {
-                    
+
                     Toast.makeText(getContext(), "Please Enter your Credentials . ", Toast.LENGTH_SHORT).show();
                 }
 

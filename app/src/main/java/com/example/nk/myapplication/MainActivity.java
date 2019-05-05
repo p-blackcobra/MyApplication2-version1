@@ -63,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         settings = getApplicationContext().getSharedPreferences(Login.MyPREFERENCES, MODE_PRIVATE);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -71,7 +72,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-
+setHeaderFields();
         navigationView.setNavigationItemSelectedListener(this);
         hideItem();
         displaySelectedScreen(R.id.nav_home);
@@ -244,5 +245,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+    private void setHeaderFields()
+    {
+
+        NavigationView navigationView=(NavigationView)findViewById(R.id.nav_view);
+        View headerView = navigationView.getHeaderView(0);
+        TextView logoTextView = (TextView)headerView.findViewById(R.id.imageTexViewView);
+        TextView userNameTextView = (TextView)headerView.findViewById(R.id.userNameTextView);
+        TextView userMailTextView = (TextView)headerView.findViewById(R.id.EmailTextView);
+        if((settings.getString("Name","")).length()>0) {
+
+            //logoTextView.setText((settings.getString("Name", "")).charAt(0));
+            userNameTextView.setText(settings.getString("Name", ""));
+            userMailTextView.setText(settings.getString("EmailId", ""));
+        }
+        else
+        {
+            logoTextView.setText("E");
+            userNameTextView.setText("Name");
+            userMailTextView.setText("EmailId");
+        }
     }
 }
