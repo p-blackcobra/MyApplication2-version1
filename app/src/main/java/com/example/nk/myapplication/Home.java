@@ -108,4 +108,5 @@ public class Home extends Fragment {
         });
         getActivity().setTitle("Home");
     }
+
 }

@@ -9,5 +9,6 @@
     <color name="lightAccent">#bdbdbd</color>
     <color name="grayColor">#bdbdbd</color>
     <color name="textColor">#292929</color>
+    <color name="customRED">#f10404</color>
 
 </resources>

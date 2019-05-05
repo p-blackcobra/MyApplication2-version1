@@ -3,9 +3,12 @@ package com.example.nk.myapplication;
 import android.app.AlertDialog;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
@@ -72,6 +75,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
         hideItem();
         displaySelectedScreen(R.id.nav_home);
+        View defView = findViewById(android.R.id.content);
+        if(isNetworkAvailable()== false)
+        {
+            Snackbar snackbar = Snackbar.make( defView,"SomeThing Went wrong !!! ",Snackbar.LENGTH_LONG).setAction("CLOSE", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                }
+            });
+            //View sbView = snackbar.getView();
+            //sbView.setBackgroundColor(getResources().getColor(R.color.customRED));
+                   snackbar.setActionTextColor(getResources().getColor(android.R.color.white ));
+                    snackbar.show();
+        }
     }
     private void hideItem()
     {
@@ -221,5 +238,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             displaySelectedScreen(item.getItemId());
         }
         return true;
+    }
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }
