@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ import com.google.firebase.messaging.FirebaseMessaging;
 public class Home extends Fragment {
     public static String str = "";
     private static final String TAG = "HomeActivity";
+    private SwipeRefreshLayout swipeRefreshLayout;
     private ListView mMessListView;
     private MessAdapter mMessAdapter;
     private FirebaseDatabase mFirebaseDatabase;
@@ -64,6 +66,35 @@ public class Home extends Fragment {
 //                }
 //            }
 //        });
+        swipeRefreshLayout =(SwipeRefreshLayout)getView().findViewById(R.id.pullToRefresh);
+       loadData();
+
+        mMessListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                // Find the current earthquake that was clicked on
+                MessAbstract currentMess = mMessAdapter.getItem(position);
+                String messUID= currentMess.getMessUID();
+                str=messUID;
+                // Convert the String URL into a URI object (to pass into the Intent constructor)
+                Intent anotherActivityIntent = new Intent(getActivity(), contact.class);
+               //anotherActivityIntent.putExtra("MESSNAME",currentMess.getMessName());
+                startActivity(anotherActivityIntent);
+
+
+            }
+        });
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                loadData();
+                swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+        getActivity().setTitle("Home");
+    }
+    public void loadData()
+    {
         mMessListView = (ListView) getView().findViewById(R.id.messageListView);
         // Initialize Firebase components
         mFirebaseDatabase = FirebaseDatabase.getInstance();
@@ -90,23 +121,6 @@ public class Home extends Fragment {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
-
-        mMessListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                // Find the current earthquake that was clicked on
-                MessAbstract currentMess = mMessAdapter.getItem(position);
-                String messUID= currentMess.getMessUID();
-                str=messUID;
-                // Convert the String URL into a URI object (to pass into the Intent constructor)
-                Intent anotherActivityIntent = new Intent(getActivity(), contact.class);
-               //anotherActivityIntent.putExtra("MESSNAME",currentMess.getMessName());
-                startActivity(anotherActivityIntent);
-
-
-            }
-        });
-        getActivity().setTitle("Home");
     }
 
 }

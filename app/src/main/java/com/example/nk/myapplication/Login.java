@@ -103,8 +103,12 @@ public class Login extends Fragment {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(edtPassword.getText().toString().length()<1 || edtPhone.getText().toString().length()<1)
+                {
+                    Toast.makeText(getContext(), "Please Enter your Credentials . ", Toast.LENGTH_SHORT).show();
+                }
 
-                if (Common.isConnectedToInternet(getContext())) {
+                else if (Common.isConnectedToInternet(getContext())) {
 
                     final ProgressDialog mDialog = new ProgressDialog(getContext());
                     mDialog.setMessage("Please wait...");

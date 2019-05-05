@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@drawable/food3">
 
-    <LinearLayout
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/pullToRefresh"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="5dp">
@@ -22,5 +23,5 @@
             android:stackFromBottom="false"
             android:transcriptMode="alwaysScroll"
             tools:listitem="@layout/item_mess" />
-    </LinearLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>
 </android.support.constraint.ConstraintLayout>
