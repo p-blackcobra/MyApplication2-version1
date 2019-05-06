@@ -7,7 +7,7 @@
     android:padding="10dp"
     android:layout_margin="5dp"
     android:orientation="horizontal"
-    android:background="#b4f1f1f1"
+    android:background="@drawable/listview_background"
     android:layout_marginBottom="10dp">
 
 

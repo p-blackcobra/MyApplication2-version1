@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="50dp"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp">
+
+        <Switch
+            android:textSize="16sp"
+            android:id="@+id/switch1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Veg Only"
+/>    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:padding="10dp"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textSize="16sp"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Area      "
+            android:textColor="@color/black" />
+        <Spinner
+            android:textSize="16sp"
+            android:id="@+id/spinner_area"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:entries="@array/area_list"/>
+    </LinearLayout>
+    <LinearLayout
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:textSize="16sp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="Service  "
+            android:textColor="@color/black"
+            android:layout_height="wrap_content" />
+
+        <Spinner
+            android:textSize="16sp"
+            android:id="@+id/spinner_service"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:dropDownWidth="wrap_content"
+            android:dropDownSelector="@color/colorPrimaryDark"
+            android:entries="@array/service_list"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_gravity="right"
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+
+            android:layout_margin="10dp"
+            android:padding="5dp"
+            android:id="@+id/filter_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cancel"
+            android:background="@color/white"/>
+        <TextView
+
+            android:layout_margin="10dp"
+            android:padding="5dp"
+            android:id="@+id/filter_apply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Apply"
+            android:background="#0091ea"/>
+    </LinearLayout>
+
+</LinearLayout>

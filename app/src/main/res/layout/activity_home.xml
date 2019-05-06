@@ -5,6 +5,67 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/food3">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp">
+        <EditText
+            android:id="@+id/search_keyword"
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            android:layout_height="wrap_content"
+            android:hint="Search here..."
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimaryDark"
+            android:background="@drawable/listview_background"
+
+            android:layout_gravity="center"
+            android:padding="10dp"/>
+
+        <ImageButton
+            android:id="@+id/search_btn"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/outline_edittext"
+            android:src="@drawable/ic_search_black_24dp" />
+    </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/filters"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Filters"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/sortby"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:padding="10dp"
+                android:text="Sort by"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+        </LinearLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/pullToRefresh"
@@ -17,6 +78,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="5dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="5dp"
             android:clickable="false"
             android:divider="@android:color/transparent"
             android:scrollbars="horizontal"
@@ -24,4 +88,5 @@
             android:transcriptMode="alwaysScroll"
             tools:listitem="@layout/item_mess" />
     </android.support.v4.widget.SwipeRefreshLayout>
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

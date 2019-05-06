@@ -16,6 +16,44 @@
         <item>Kolkatta rolls</item>
         <item>Others.....</item>
     </string-array>
+    <string-array name="service_list">
+        <item>Both Tiffin and Mess</item>
+        <item>Tiffin Only</item>
+        <item>Mess Only </item>
+    </string-array>
+    <string-array name="area_list">
+        <item>All</item>
+        <item>Shegaon Naka</item>
+        <item>Panchawati</item>
+        <item>Gadge Nagar</item>
+        <item>Kathora Naka</item>
+        <item>Jamil Colony</item>
+        <item>Mahendra Colony, new cotton market</item>
+        <item>Jawahar Stadium</item>
+        <item> Vilas Nagar</item>
+        <item>Chaparasi Pura</item>
+        <item>Wadali</item>
+        <item>Dastur Nagar</item>
+        <item>Frejarpura</item>
+        <item>Rukhmini Nagar</item>
+        <item>Ambapeth Gaurakshan</item>
+        <item>Jawahar gate</item>
+        <item>Chaya Nagar</item>
+        <item>Gauli Pura</item>
+        <item>Alim Nagar</item>
+        <item>Gadgareshwar </item>
+        <item>Rajapeth </item>
+        <item>Sai nagar</item>
+        <item>Sutgirni</item>
+        <item>Juni Wasti, Badnera</item>
+        <item>Navi Wasti, Badnera</item>
+        <item>Farshi stop</item>
+        <item>Kanwar nagar</item>
+        <item>Pravin nagar</item>
+        <item>Ravi nagar</item>
+        <item>Irwin</item>
+        <item>Navathe</item>
+    </string-array>
     <string name="open">Open</string>
 
     <string name="close">Close</string>

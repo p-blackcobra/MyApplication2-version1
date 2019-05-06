@@ -1,5 +1,8 @@
 package com.example.nk.myapplication;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,8 +16,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,6 +47,14 @@ public class Home extends Fragment {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mMessDatabaseReference;
 
+    private Button btn_filter;
+    private  Button btn_sortby;
+
+    int veg, service_type;
+    String area;
+
+    AlertDialog alertDialog1;
+    CharSequence[] values = { " Mess Rates "," Rating "," Mess Name "};
 
     @Nullable
     @Override
@@ -66,12 +82,58 @@ public class Home extends Fragment {
 //                }
 //            }
 //        });
+
         swipeRefreshLayout =(SwipeRefreshLayout)getView().findViewById(R.id.pullToRefresh);
-       loadData();
+         loadData();
+         btn_filter = (Button)getView().findViewById(R.id.filters);
+         btn_sortby = (Button)getView().findViewById(R.id.sortby);
+         btn_sortby.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View view) {
+                 CreateAlertDialogWithRadioButtonGroup() ;
+             }
+         });
+        btn_filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final Dialog dialog = new Dialog(getContext());
+                dialog.setContentView(R.layout.filter_dailog);
+                dialog.setTitle("Filter");
+               TextView cancelButton = (TextView) dialog.findViewById(R.id.filter_cancel);
+                TextView applyButton = (TextView) dialog.findViewById(R.id.filter_apply);
+
+                // if button is clicked, close the custom dialog
+                cancelButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+                applyButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                       Switch s = (Switch)dialog.findViewById(R.id.switch1);
+                       if(s.isChecked())
+                       {
+                           veg=1;
+                       }
+                        Spinner spinner_area = (Spinner)dialog.findViewById(R.id.spinner_area);
+                       Spinner spinner_service =(Spinner)dialog.findViewById(R.id.spinner_service);
+                       area  = spinner_area.getSelectedItem().toString();
+                       service_type = spinner_service.getSelectedItemPosition();
+                       dialog.dismiss();
+
+                    }
+                });
+                dialog.show();
+
+            }
+        });
 
         mMessListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
+            {
                 // Find the current earthquake that was clicked on
                 MessAbstract currentMess = mMessAdapter.getItem(position);
                 String messUID= currentMess.getMessUID();
@@ -121,6 +183,89 @@ public class Home extends Fragment {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
+    }
+    public void loadData(int type,String area, int service)
+    {
+        mMessListView = (ListView) getView().findViewById(R.id.messageListView);
+        // Initialize Firebase components
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mMessDatabaseReference = mFirebaseDatabase.getReference().child("messdet");
+
+        // Initialize message ListView and its adapter
+        List<MessAbstract> mess = new ArrayList<>();
+        mMessAdapter = new MessAdapter(getActivity(), R.layout.item_mess,mess);
+        mMessListView.setAdapter(mMessAdapter);
+        mMessDatabaseReference.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mMessAdapter.clear();
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    MessAbstract messAbstract = ds.getValue(MessAbstract.class);
+                    mMessAdapter.add(messAbstract);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+    public void loadData(int n)
+    {
+        mMessListView = (ListView) getView().findViewById(R.id.messageListView);
+        // Initialize Firebase components
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mMessDatabaseReference = mFirebaseDatabase.getReference().child("messdet");
+
+        // Initialize message ListView and its adapter
+        List<MessAbstract> mess = new ArrayList<>();
+        mMessAdapter = new MessAdapter(getActivity(), R.layout.item_mess,mess);
+        mMessListView.setAdapter(mMessAdapter);
+        mMessDatabaseReference.addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                mMessAdapter.clear();
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    MessAbstract messAbstract = ds.getValue(MessAbstract.class);
+                    mMessAdapter.add(messAbstract);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+    }
+    public void CreateAlertDialogWithRadioButtonGroup(){
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Sort By ...");
+        builder.setSingleChoiceItems(values, -1, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int item) {
+                switch(item)
+                {
+                    case 0:
+                        Toast.makeText(getContext(), "Sorted by Rate", Toast.LENGTH_LONG).show();
+                        break;
+                    case 1:
+                        Toast.makeText(getContext(), "Sorted by Ratings", Toast.LENGTH_LONG).show();
+                        break;
+                    case 2:
+                        Toast.makeText(getContext(), "Sorted by Name", Toast.LENGTH_LONG).show();
+                        break;
+                }
+                alertDialog1.dismiss();
+            }
+        });
+        alertDialog1 = builder.create();
+        alertDialog1.show();
     }
 
 }
