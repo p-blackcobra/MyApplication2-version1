@@ -109,6 +109,8 @@ setHeaderFields();
 //            EmailHeadr.setText(settings.getString("EmailId","").toString());
             nav_Menu.findItem(R.id.nav_login).setVisible(false);
             nav_Menu.findItem(R.id.nav_logout).setVisible(true);
+            nav_Menu.findItem(R.id.nav_favourite).setVisible(true);
+//            nav_Menu.findItem(R.id.favorites_menu).setVisible(true);
         }
 
     }
@@ -138,18 +140,11 @@ setHeaderFields();
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        /*final String phone=settings.getString("Phone", "").toString();
+        final String phone=settings.getString("Phone", "").toString();
         final String password=settings.getString("Password","").toString();
-        if(!(phone.isEmpty() && password.isEmpty()))
-        {
-            menu.findItem(R.id.nav_login).setVisible(false);
-            menu.findItem(R.id.nav_logout).setVisible(true);
+        if(!(phone.isEmpty() && password.isEmpty())) {
+            menu.findItem(R.id.favorites_menu).setVisible(true);
         }
-        else
-        {
-            menu.findItem(R.id.nav_login).setVisible(true);
-            menu.findItem(R.id.nav_logout).setVisible(false);
-        }*/
         return true;
     }
 
@@ -161,7 +156,7 @@ setHeaderFields();
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        /*if (id == R.id.action_settings) {
             final String password=settings.getString("Password","").toString();
             if(password.isEmpty())
             {
@@ -172,15 +167,14 @@ setHeaderFields();
                 displaySelectedScreen(R.id.action_settings);
             }
             return true;
-        }
-        else if(id == R.id.favorites_menu)
+        }*/
+        if(id == R.id.favorites_menu)
         {
             Fragment fragment = new Favourites();
 
             if((settings.getString("Phone","").toString().length())<1 )
             {
                 Toast.makeText(getApplicationContext(), "You Must Login First...", Toast.LENGTH_SHORT).show();
-
             }
             else if (fragment != null) {
                 FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -210,9 +204,9 @@ setHeaderFields();
             case R.id.nav_login:
                 fragment = new Login();
                 break;
-            case R.id.action_settings:
+            /*case R.id.action_settings:
                 fragment=new Settings();
-                break;
+                break;*/
         }
         //replacing the fragment
         if (fragment != null) {
@@ -262,9 +256,9 @@ setHeaderFields();
         }
         else
         {
-            logoTextView.setText("E");
+           /* logoTextView.setText("E");
             userNameTextView.setText("Name");
-            userMailTextView.setText("EmailId");
+            userMailTextView.setText("EmailId");*/
         }
     }
 }

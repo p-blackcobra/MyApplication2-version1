@@ -16,11 +16,14 @@
         <item>Kolkatta rolls</item>
         <item>Others.....</item>
     </string-array>
+    <string name="nameerror">Enter a valid name</string>
+    <string name="emailerror">Enter a valid email</string>
+    <string name="mobileerror">Enter a valid mobile number</string>
+    <string name="passworderror">Enter a valid password</string>
     <string name="open">Open</string>
 
     <string name="close">Close</string>
     <string name="title_activity_navigation__bar">Navigation_Bar</string>
-    <string name="verify_sign_up"><![CDATA[Verify & Sign Up]]></string>
 
     <string name="phone_number">Phone Number</string>
     <string name="generate_otp">Generate OTP</string>

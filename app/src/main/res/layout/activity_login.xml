@@ -60,24 +60,12 @@
             android:background="@color/colorPrimary"
             android:layout_below="@id/linearLayout2"           />
         <TextView
-            android:id="@+id/txtForgot"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/btnSignIn"
-            android:text="Forgot Password?"
-            android:layout_marginTop="10dp"
-            android:padding="5dp"
-            android:textSize="20sp"
-            android:textColor="@color/white"
-            android:gravity="center"
-            />
-        <TextView
             android:id="@+id/txtSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/btnSignIn"
             android:text="New User? Click Here to Sign Up"
-            android:layout_marginTop="59dp"
+            android:layout_marginTop="15dp"
             android:padding="5dp"
             android:textSize="20sp"
             android:textColor="@color/white"

@@ -15,7 +15,8 @@
         <item
             android:id="@+id/nav_favourite"
             android:icon="@drawable/ic_favorite_black_24dp"
-            android:title="Favourite" />
+            android:title="Favourite"
+            android:visible="false"/>
         <item
             android:id="@+id/nav_login"
             android:icon="@drawable/ic_vpn_key_black_24dp"
