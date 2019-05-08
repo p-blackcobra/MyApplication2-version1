@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.example.nk.myapplication.Common.Common;
 import com.example.nk.myapplication.Model.User;
+import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.basgeekball.awesomevalidation.ValidationStyle;
 public class Login extends Fragment {
     EditText edtPhone, edtPassword;
     Button btnSignIn;
@@ -30,6 +31,7 @@ public class Login extends Fragment {
     public static final String Password = "Password";
     public static final String Phone = "Phone";
     SharedPreferences sharedpreferences;
+    private AwesomeValidation awesomeValidation;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -46,9 +48,13 @@ public class Login extends Fragment {
         edtPhone = (EditText) getView().findViewById(R.id.edtPhone);
         btnSignIn = (Button) getView().findViewById(R.id.btnSignIn);
         txtsignUp = (TextView) getView().findViewById(R.id.txtSignUp);
-        txtForgot = (TextView) getView().findViewById(R.id.txtForgot);
+       // txtForgot = (TextView) getView().findViewById(R.id.txtForgot);
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference table_user = database.getReference("User");
+        awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
+        awesomeValidation.addValidation(getActivity(), R.id.edtPhone, "^[2-9]{2}[0-9]{8}$", R.string.mobileerror);
+        String regexPassword = ".{8,}";
+        awesomeValidation.addValidation(getActivity(), R.id.edtPassword, regexPassword, R.string.passworderror);
         /*
          * Check if we successfully logged in before.
          * If we did, redirect to home page
@@ -84,13 +90,13 @@ public class Login extends Fragment {
                 return;
             }
         }
-        txtForgot.setOnClickListener(new View.OnClickListener() {
+       /* txtForgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent= new Intent(getContext(),ForgotPassword.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
         txtsignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,55 +109,50 @@ public class Login extends Fragment {
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(edtPassword.getText().toString().length()<1 || edtPhone.getText().toString().length()<1)
-                {
-
-                    Toast.makeText(getContext(), "Please Enter your Credentials . ", Toast.LENGTH_SHORT).show();
-                }
-
-                else if (Common.isConnectedToInternet(getContext())) {
+                 if (Common.isConnectedToInternet(getContext())) {
 
                     final ProgressDialog mDialog = new ProgressDialog(getContext());
                     mDialog.setMessage("Please wait...");
-                    mDialog.show();
+                    if(awesomeValidation.validate()) {
+                        mDialog.show();
+                        table_user.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    table_user.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-
-                            //check if user exist or not
-                            if (dataSnapshot.child(edtPhone.getText().toString()).exists()) {
-                                mDialog.dismiss();
-                                //get user information
-                                User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
-                                user.setPhone(edtPhone.getText().toString()); // set Phone
-                                if (user.getPassword().equals(edtPassword.getText().toString())) {
-                                    SharedPreferences.Editor editor = login.edit();
-                                    editor.putString(Password, user.getPassword());
-                                    editor.putString(Phone, user.getPhone());
-                                    editor.putString("EmailId",user.getEmailId());
-                                    editor.putString("Name",user.getName());
-                                    editor.commit();
-                                    Toast.makeText(getContext(), "Login Successfull...", Toast.LENGTH_SHORT).show();
-                                    Common.currentUser = user;
-                                    Intent intent=new Intent(getContext(),MainActivity.class);
-                                    startActivity(intent);
-                                    //Fragment home = new Home();
-                                    //getFragmentManager().beginTransaction().replace(R.id.content_frame, home).setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+                                //check if user exist or not
+                                if (dataSnapshot.child(edtPhone.getText().toString()).exists()) {
+                                    mDialog.dismiss();
+                                    //get user information
+                                    User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
+                                    user.setPhone(edtPhone.getText().toString()); // set Phone
+                                    if (user.getPassword().equals(edtPassword.getText().toString())) {
+                                        SharedPreferences.Editor editor = login.edit();
+                                        editor.putString(Password, user.getPassword());
+                                        editor.putString(Phone, user.getPhone());
+                                        editor.putString("EmailId", user.getEmailId());
+                                        editor.putString("Name", user.getName());
+                                        editor.commit();
+                                        Toast.makeText(getContext(), "Login Successfull...", Toast.LENGTH_SHORT).show();
+                                        Common.currentUser = user;
+                                        Intent intent = new Intent(getContext(), MainActivity.class);
+                                        startActivity(intent);
+                                        //Fragment home = new Home();
+                                        //getFragmentManager().beginTransaction().replace(R.id.content_frame, home).setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+                                    } else {
+                                        Toast.makeText(getContext(), "SignIn failed...", Toast.LENGTH_SHORT).show();
+                                    }
                                 } else {
-                                    Toast.makeText(getContext(), "SignIn failed...", Toast.LENGTH_SHORT).show();
+                                    mDialog.dismiss();
+                                    Toast.makeText(getContext(), "User not exist...", Toast.LENGTH_SHORT).show();
                                 }
-                            } else {
-                                mDialog.dismiss();
-                                Toast.makeText(getContext(), "User not exist...", Toast.LENGTH_SHORT).show();
                             }
-                        }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
 
-                        }
-                    });
+                            }
+                        });
+                    }
                 } else {
                     Toast.makeText(getContext(), "Internet Connection Failed...", Toast.LENGTH_SHORT).show();
                     return;

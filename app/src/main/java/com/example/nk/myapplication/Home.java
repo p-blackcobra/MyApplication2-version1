@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -27,8 +29,11 @@ import android.widget.Toast;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -49,9 +54,13 @@ public class Home extends Fragment {
 
     private Button btn_filter;
     private  Button btn_sortby;
+    private ImageButton btn_search;
+
+    private EditText search_keyword;
 
     int veg, service_type;
     String area;
+    String keywrd;
 
     AlertDialog alertDialog1;
     CharSequence[] values = { " Mess Rates "," Rating "," Mess Name "};
@@ -87,7 +96,48 @@ public class Home extends Fragment {
          loadData();
          btn_filter = (Button)getView().findViewById(R.id.filters);
          btn_sortby = (Button)getView().findViewById(R.id.sortby);
-         btn_sortby.setOnClickListener(new View.OnClickListener() {
+        btn_search = (ImageButton) getView().findViewById(R.id.search_btn);
+
+        btn_search.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                search_keyword = (EditText)getView().findViewById(R.id.search_keyword);
+                keywrd = search_keyword.getText().toString();
+                if(keywrd.length()>1) {
+                    mFirebaseDatabase = FirebaseDatabase.getInstance();
+                    mMessDatabaseReference = mFirebaseDatabase.getReference().child("messdet");
+                 //  mMessDatabaseReference.orderByChild("area").startAt(keywrd).endAt(keywrd+"\uf8ff");
+                    // Initialize message ListView and its adapter
+                    final List<MessAbstract> mess = new ArrayList<>();
+                    mMessAdapter = new MessAdapter(getActivity(), R.layout.item_mess,mess);
+                    mMessListView.setAdapter(mMessAdapter);
+                    mMessDatabaseReference.addValueEventListener(new ValueEventListener() {
+
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            mMessAdapter.clear();
+                            for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                                MessAbstract messAbstract = ds.getValue(MessAbstract.class);
+                                String are=messAbstract.getArea();
+                                if(keywrd.regionMatches(true,0,messAbstract.getArea(),0,keywrd.length()) || keywrd.regionMatches(true,0,messAbstract.getMessName(),0,keywrd.length()) )
+                                {
+                                    Log.w(TAG,messAbstract.getMessUID()+"    " + messAbstract.getArea());
+                                    mMessAdapter.add(messAbstract);
+                            }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError error) {
+                            // Failed to read value
+                            Log.w(TAG, "Failed to read value.", error.toException());
+                        }
+                    });
+
+                }
+            }
+        });
+        btn_sortby.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
                  CreateAlertDialogWithRadioButtonGroup() ;
@@ -115,12 +165,73 @@ public class Home extends Fragment {
                        Switch s = (Switch)dialog.findViewById(R.id.switch1);
                        if(s.isChecked())
                        {
-                           veg=1;
+                           int i=0;
+                           while(i<mMessAdapter.getCount())
+                           {
+                               MessAbstract temp = mMessAdapter.getItem(i);
+                             if(! temp.getMessType().equalsIgnoreCase("Veg"))
+                               {
+                                   Log.w(TAG,"Removed"+temp.getMessName() + "    "+temp.getMessUID());
+                                   mMessAdapter.remove(temp);
+                               }
+                               else
+                             {
+                               i++;
+                           }}
                        }
-                        Spinner spinner_area = (Spinner)dialog.findViewById(R.id.spinner_area);
+                       Spinner spinner_area = (Spinner)dialog.findViewById(R.id.spinner_area);
                        Spinner spinner_service =(Spinner)dialog.findViewById(R.id.spinner_service);
                        area  = spinner_area.getSelectedItem().toString();
+                       if(! area.equalsIgnoreCase("All"))
+                       {
+                           int i=0;
+                           while(i<mMessAdapter.getCount())
+                           {
+                               MessAbstract temp = mMessAdapter.getItem(i);
+                               if(! temp.getArea().equalsIgnoreCase(area))
+                               {
+                                   Log.w(TAG,"Removed"+temp.getMessName() + "    "+temp.getMessUID());
+                                   mMessAdapter.remove(temp);
+                               }
+                               else
+                               {
+                                   i++;
+                               }}
+                       }
                        service_type = spinner_service.getSelectedItemPosition();
+                        Log.w(TAG,"selected item id" + service_type);
+                       if(service_type==1)
+                       {
+                           int i=0;
+                           while(i<mMessAdapter.getCount())
+                           {
+                               MessAbstract temp = mMessAdapter.getItem(i);
+                               if(temp.getService().equalsIgnoreCase("Mess"))
+                               {
+                                   Log.w(TAG,"Removed"+temp.getMessName()+" "+temp.getService()+ "    "+temp.getMessUID());
+                                   mMessAdapter.remove(temp);
+                               }
+                               else
+                               {
+                                   i++;
+                               }}
+                       }
+                       else if (service_type==2)
+                       {
+                           int i=0;
+                           while(i<mMessAdapter.getCount())
+                           {
+                               MessAbstract temp = mMessAdapter.getItem(i);
+                               if( temp.getService().equalsIgnoreCase("Tiffin"))
+                               {
+                                   Log.w(TAG,"Removed"+temp.getMessName()+" "+temp.getService()+ "    "+temp.getMessUID());
+                                   mMessAdapter.remove(temp);
+                               }
+                               else
+                               {
+                                   i++;
+                               }}
+                       }
                        dialog.dismiss();
 
                     }
@@ -251,15 +362,20 @@ public class Home extends Fragment {
             public void onClick(DialogInterface dialog, int item) {
                 switch(item)
                 {
-                    case 0:
+                    case 0:{
+                        mMessAdapter.sort(0);
                         Toast.makeText(getContext(), "Sorted by Rate", Toast.LENGTH_LONG).show();
                         break;
-                    case 1:
+                    }
+                    case 1: {
                         Toast.makeText(getContext(), "Sorted by Ratings", Toast.LENGTH_LONG).show();
                         break;
-                    case 2:
+                    }
+                    case 2: {
+                        mMessAdapter.sort(2);
                         Toast.makeText(getContext(), "Sorted by Name", Toast.LENGTH_LONG).show();
                         break;
+                    }
                 }
                 alertDialog1.dismiss();
             }

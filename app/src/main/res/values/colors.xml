@@ -8,6 +8,7 @@
     <color name="nav_head_back">#3F91B6</color>
     <color name="lightAccent">#bdbdbd</color>
     <color name="grayColor">#bdbdbd</color>
+    <color name="grayDarkColor">#616161</color>
     <color name="textColor">#292929</color>
     <color name="customRED">#f10404</color>
 

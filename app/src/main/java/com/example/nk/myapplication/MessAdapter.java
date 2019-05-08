@@ -38,4 +38,23 @@ public class MessAdapter extends ArrayAdapter<MessAbstract> {
 
         return convertView;
     }
+
+    public void sort(int i) {
+
+        if(i==0)
+        {
+            super.sort(new RateComparator());
+        }
+        else if(i==1)
+        {
+
+        }
+        else
+        {
+            super.sort(new NameComparator());
+        }
+
+
+        notifyDataSetChanged();
+    }
 }

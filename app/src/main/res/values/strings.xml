@@ -54,17 +54,34 @@
         <item>Irwin</item>
         <item>Navathe</item>
     </string-array>
+    <string name="nameerror">Enter a valid name</string>
+    <string name="emailerror">Enter a valid email</string>
+    <string name="mobileerror">Enter a valid mobile number</string>
+    <string name="passworderror">Enter a valid password</string>
     <string name="open">Open</string>
 
     <string name="close">Close</string>
     <string name="title_activity_navigation__bar">Navigation_Bar</string>
-    <string name="verify_sign_up"><![CDATA[Verify & Sign Up]]></string>
 
     <string name="phone_number">Phone Number</string>
     <string name="generate_otp">Generate OTP</string>
     <string name="enter_otp">Enter OTP</string>
     <string name="verify_sign_in">Verify and Sign In</string>
     <string name="sign_out">sign out</string>
+
+    <string name="action_ok">OK</string>
+    <string name="action_send_normal_sms">Send normal SMS</string>
+    <string name="action_send_condition_sms">Send Condition SMS</string>
+
+    <string name="your_cellphone_number">Your cellphone number:</string>
+    <string name="phone_number_hint">912345678</string>
+    <string name="toast_sending_sms">Sending sms…</string>
+
+    <string name="permission_alert_dialog_title">Requesting SMS permission</string>
+    <string name="permission_dialog_message">The app will now request your permission to send and read SMS related services.</string>
+
+    <string name="error_invalid_phone_number">Invalid phone number</string>
+
 
 
 </resources>

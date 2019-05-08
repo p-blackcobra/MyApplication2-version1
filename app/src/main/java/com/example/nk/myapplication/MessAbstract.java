@@ -5,6 +5,7 @@ public class MessAbstract {
     private String messType;
     private String messRate;
     private String address;
+  private String area;
     private String contactNumber;
     private String guestTiffinCharges;
     private String menus;
@@ -21,7 +22,7 @@ public class MessAbstract {
 
     }
 
-    public MessAbstract(String messName, String messType, String messRate, String address, String contactNumber, String guestTiffinCharges, String menus, String messOwner, String remarks, String service, String feast,String messUID) {
+    public MessAbstract(String messName, String messType, String messRate, String address, String contactNumber, String guestTiffinCharges, String menus, String messOwner, String remarks, String service, String feast,String messUID,String area) {
         this.messName = messName;
         this.messType = messType;
         this.messRate = messRate;
@@ -34,6 +35,16 @@ public class MessAbstract {
         this.service = service;
         this.feast = feast;
         this.messUID = messUID;
+        this.area = area ;
+
+
+    }
+    public String getArea() {
+        return area;
+    }
+
+    public void setArea(String area) {
+        this.area = area;
     }
 
     public String getMessName() {

@@ -5,149 +5,147 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".contact"
     android:background="@drawable/gradient"
+    tools:context=".contact"
     >
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/f1"
+        android:layout_above="@id/mess_det"
+        android:scaleType="centerCrop"/>
     <LinearLayout
         android:id="@+id/mess_det"
+        android:layout_centerInParent="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_margin="10dp"
-        android:paddingTop="55dp"
         >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="2dp"
-            android:background="@color/colorAccent"
             >
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="MessName"
-                android:padding="5dp"
-                tools:text="MessName"
-                />
+
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="35dip"
+                android:fontFamily="@font/lobsterregular"
                 android:id="@+id/messName"
                 tools:text="MessName"
+                android:textColor="@color/white"
+                android:background="@color/colorPrimaryDark"
+                android:paddingTop="20dp"
+
                 />
         </LinearLayout>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@color/white">
+    <ImageView
+
+        android:id="@+id/type"
+        android:layout_width="0dp"
+        android:background="@color/colorPrimaryDark"
+        android:layout_height="50dp"
+        android:layout_weight="1" />
+
+    <ImageView
+        android:id="@+id/service_type"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:layout_height="50dp"
+        android:background="@color/colorPrimaryDark" />
+    <TextView
+        tools:text="1200/-"
+        android:padding="5dp"
+        android:id="@+id/rates"
+        android:layout_width="0dp"
+        android:layout_weight="2"
+        android:gravity="center"
+        android:background="@color/colorPrimaryDark"
+        android:textSize="20dip"
+        android:fontFamily="@font/antonregular"
+        android:layout_height="fill_parent" />
+</LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center"
+            android:layout_marginTop="25dp"
+            >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:gravity="right"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Menu "
+                    android:textColor="@color/grayDarkColor"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/Menus"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/black"
+                    android:textSize="15sp"
+                    tools:text="Menus" />
+            </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="2dp"
-            android:background="@color/colorAccent"
-
 
             >
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Menus"
+                android:gravity="right"
+                android:textSize="15sp"
+                android:textColor="@color/grayDarkColor"
+                android:text="Feast "
                 />
-
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/Menus"
-                tools:text="Menus"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="2dp"
-            android:background="@color/colorAccent"
-
-            >
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Feast"
-
-                />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:textSize="15sp"
+                android:textColor="@color/black"
                 android:id="@+id/feast"
                 tools:text="Feast"
                 />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="2dp"
-            android:background="@color/colorAccent"
+
 
             >
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Services"
-                />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/Services"
-                tools:text="Services"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="2dp"
-            android:background="@color/colorAccent"
-
-            >
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Type"
-                />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:id="@+id/messType"
-                tools:text="messType"
-                />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="2dp"
-            android:background="@color/colorAccent"
-
-            >
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:textSize="15sp"
+                android:gravity="right"
+                android:textColor="@color/grayDarkColor"
                 android:text="Guest Tiffin Charges"
                 />
 
@@ -155,6 +153,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textSize="15sp"
+                android:textColor="@color/black"
                 android:id="@+id/guestTiffinCharges"
                 tools:text="guestTiffinCharges"
                 />
@@ -163,8 +163,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="2dp"
-            android:background="@color/colorAccent"
+
 
 
             >
@@ -172,6 +171,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:gravity="right"
+                android:textSize="15sp"
+                android:textColor="@color/grayDarkColor"
                 android:text="Owner"
                 />
 
@@ -179,57 +181,40 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:padding="5dp"
+                android:textSize="15sp"
+                android:textColor="@color/black"
                 android:id="@+id/messOwner"
                 tools:text="messOwner"
                 />
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_margin="2dp"
-            android:background="@color/colorAccent"
-
             >
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Rate  "
+                android:textSize="15sp"
+                android:gravity="right"
+                android:textColor="@color/grayDarkColor"
+                android:text="Remarks "
                 />
 
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:id="@+id/messRate"
-                tools:text="messRate"
-                />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="2dp"
-            android:background="@color/colorAccent"
-
-            >
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Mess Remark"
-                />
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:textSize="15sp"
+                android:textColor="@color/black"
                 android:id="@+id/remarks"
                 tools:text="remarks"
                 />
         </LinearLayout>
-
+        </LinearLayout>
 
 
     </LinearLayout>
@@ -244,15 +229,19 @@
         android:background="@color/colorPrimaryDark"
         android:shadowColor="@color/black"
         android:layout_width="0dp"
+        android:textSize="15sp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:textAllCaps="true"/>
     <Button
         android:id="@+id/add_to_fav"
         android:text="Add to favourate"
         android:background="@color/colorAccent"
         android:shadowColor="@color/black"
         android:layout_width="0dp"
+        android:textSize="15sp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:textAllCaps="true"/>
 </LinearLayout>
 </RelativeLayout>
