@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FragmentTwo"
-    android:background="@drawable/gradient">
+    android:background="#fafafa">
 
     <LinearLayout
         android:id="@+id/revsection"
@@ -32,21 +32,24 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp"
+    android:padding="5dp"
     android:id="@+id/liner">
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="Write Your Review and Write the comment"
         />
     <RatingBar
         android:layout_below="@id/textView1"
         android:id="@+id/ratingBarView"
+        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <EditText
+        android:hint="Write Your Comment ..."
         android:layout_below="@id/ratingBarView"
         android:id="@+id/CommentText"
         android:layout_width="match_parent"
@@ -57,8 +60,8 @@
         android:layout_below="@id/CommentText"
         android:id="@+id/buttonSubmit"
         android:layout_marginTop="5dp"
-        android:textSize="20dp"
-        android:background="@color/colorPrimaryDark"
+        android:textSize="15dp"
+        android:background="@drawable/listview_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Submit" />

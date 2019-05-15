@@ -11,6 +11,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/gradient"
         tools:context=".SignIn">
+
         <ImageView
             android:layout_width="100dp"
             android:layout_height="100dp"
@@ -24,14 +25,18 @@
             android:orientation="vertical"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="8dp"
-            android:layout_marginBottom="8dp"
             android:layout_centerInParent="true"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/linearLayout2">
 
             <EditText
+                android:background="@drawable/outline_button"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:gravity="center"
                 android:id="@+id/edtPhone"
+
                 android:hint="Telephone Number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -41,6 +46,10 @@
                 />
 
             <EditText
+                android:background="@drawable/outline_button"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:gravity="center"
                 android:id="@+id/edtPassword"
                 android:hint="Password"
                 android:layout_width="match_parent"
@@ -60,7 +69,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
            android:layout_below="@id/linearLayout2"
-            android:textSize="20dp"         />
+            android:textSize="15sp"
+            android:background="@drawable/listview_background"/>
         <TextView
             android:id="@+id/txtSignUp"
             android:layout_width="match_parent"

@@ -32,6 +32,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 
 import com.google.firebase.database.DataSnapshot;
@@ -76,10 +77,7 @@ private ImageView serviceType;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-
         return inflater.inflate(R.layout.activity_fragment_one, container, false);
-
     }
 
     @Override
@@ -106,7 +104,6 @@ private ImageView serviceType;
         mMessDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                     MessCompleteDetail messCompleteDetail = ds.getValue(MessCompleteDetail.class);
                     if ((messCompleteDetail.getMessUID()) == name) {
@@ -120,33 +117,29 @@ private ImageView serviceType;
                         contact=messCompleteDetail.getContactNumber();
                         mess=messCompleteDetail.getMessName();
                         address=messCompleteDetail.getAddress();
-if(messCompleteDetail.getMessType().equalsIgnoreCase("veg"))
-{
-    messType.setImageResource(R.drawable.veg);
-}
-else
-{
-    messType.setImageResource(R.drawable.both1);
-}
-if(messCompleteDetail.getService().equalsIgnoreCase("tiffin"))
-{
-    serviceType.setImageResource(R.drawable.tiffin);
-}
-else if(messCompleteDetail.getService().equalsIgnoreCase("mess"))
-{
-    serviceType.setImageResource((R.drawable.messonly));
-}
-else
-{
-    serviceType.setImageResource((R.drawable.messandtiffin));
-}
-
-
+                        if(messCompleteDetail.getMessType().equalsIgnoreCase("veg"))
+                        {
+                            messType.setImageResource(R.drawable.veg);
+                        }
+                        else
+                        {
+                            messType.setImageResource(R.drawable.both1);
+                        }
+                        if(messCompleteDetail.getService().equalsIgnoreCase("tiffin"))
+                        {
+                            serviceType.setImageResource(R.drawable.tiffin);
+                        }
+                        else if(messCompleteDetail.getService().equalsIgnoreCase("mess"))
+                        {
+                            serviceType.setImageResource((R.drawable.messonly));
+                        }
+                        else
+                        {
+                            serviceType.setImageResource((R.drawable.messandtiffin));
+                        }
                     }
                 }
-
             }
-
             @Override
             public void onCancelled(DatabaseError error) {
                 // Failed to read value
@@ -156,12 +149,12 @@ else
 
         SharedPreferences sharedpreferences = getContext().getSharedPreferences(Login.MyPREFERENCES, getContext().MODE_PRIVATE);
         String ph = sharedpreferences.getString("Phone", "");
-        if (ph.length() < 1) {
-          //  Toast.makeText(getContext(), "You Must Login First...", Toast.LENGTH_SHORT).show();
-            //Fragment login = new Login();
-            //getFragmentManager().beginTransaction().replace(R.id.content_frame, login).setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+        if (ph.length() > 1)
+        {
 
-        } else {
+        }
+        else
+            {
             i = 0;
             arr = new ArrayList<String>();
             mFavDatabaseReference = mFirebaseDatabase.getReference().child(DatabaseFavrateTableName).child(ph).child("messID");
@@ -175,7 +168,8 @@ else
                     if (!arr.isEmpty()) {
                         if (arr.contains(name))
                         {
-                            Toast.makeText(getActivity(), "It's your  favorites mess", Toast.LENGTH_SHORT).show();
+
+                          //      Toast.makeText(getActivity(), "It's your  favorites mess", Toast.LENGTH_SHORT).show();
                             btn_fav.setEnabled(false);
                         }
                     }
@@ -188,19 +182,15 @@ else
                     Log.w(TAG, "Failed to read value.", error.toException());
                 }
             });
-
+            btn_fav.setEnabled(true);
             btn_fav.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    Log.w(TAG,"btn fav clicked");
                     SharedPreferences sharedpreferences = getContext().getSharedPreferences(Login.MyPREFERENCES, getContext().MODE_PRIVATE);
                     String ph = sharedpreferences.getString("Phone", "");
-                    if (ph.length() < 1) {
-                        Toast.makeText(getContext(), "You Must Login First...", Toast.LENGTH_SHORT).show();
-                        //Fragment login = new Login();
-                        //getFragmentManager().beginTransaction().replace(R.id.content_frame, login).setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
 
-                    } else {
-
+                    if(!ph.isEmpty()) {
                         i = 0;
                         arr = new ArrayList<String>();
                         mFavDatabaseReference = mFirebaseDatabase.getReference().child(DatabaseFavrateTableName).child(ph).child("messID");
@@ -211,29 +201,26 @@ else
                                 for (DataSnapshot ds : dataSnapshot.getChildren()) {
                                     arr.add(i, (String) ds.getValue());
                                 }
-
-                                if (true) {
-                                    if (!arr.contains(name)) {
+                                if (!arr.contains(name)) {
                                         Toast.makeText(getContext(), "Adding to favorites", Toast.LENGTH_SHORT).show();
                                         arr.add(i, name);
                                         Collections.sort(arr);
                                         mFavDatabaseReference.setValue(arr);
-
-                                    }
-
+                                        Toast.makeText(getContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
                                 }
-
                             }
-
-
                             @Override
                             public void onCancelled(DatabaseError error) {
                                 // Failed to read value
-                                Log.w(TAG, "Failed to read value.", error.toException());
+                                Log.w(TAG, "Failed to add value.", error.toException());
                             }
                         });
                     }
-
+                    else {
+                        Toast.makeText(getContext(), "You Must Login First...", Toast.LENGTH_SHORT).show();
+                        Fragment login = new Login();
+                        getFragmentManager().beginTransaction().replace(R.id.login_frame, login).setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+                    }
 
                 }
             });
@@ -244,55 +231,55 @@ else
 
                 @Override
                 public void onClick(View view) {
+
                     if (!hasValidPreConditions()) return;
 
+                    if (ph.length() > 0) {
+                        SmsHelper.sendDebugSms(ph, SmsHelper.SMS_CONDITION + "Mess Name:" + mess + "\nContact:" + contact + "\nAddress:" + address);
+                        Toast.makeText(getContext(), R.string.toast_sending_sms, Toast.LENGTH_SHORT).show();
+                        SmsHelper.sendDebugSms(contact, SmsHelper.SMS_CONDITION + "Viewed By\nName:" + uname + "\n" + "Contact:" + ph);
+                        Toast.makeText(getContext(), "Message sent", Toast.LENGTH_SHORT).show();
 
-                    SmsHelper.sendDebugSms(ph, SmsHelper.SMS_CONDITION + "Mess Name:"+mess+"\nContact:"+contact+"\nAddress:"+address);
-                    Toast.makeText(getContext(), R.string.toast_sending_sms, Toast.LENGTH_SHORT).show();
-                    SmsHelper.sendDebugSms(contact, SmsHelper.SMS_CONDITION + "Viewed By\nName:"+uname+"\n"+"Contact:"+ph);
 
-
-                    //Add to database
-                    i = 0;
-                    arr1 = new ArrayList<String>();
-                    mContactDatabaseReference = mFirebaseDatabase.getReference().child(DatabaseContactTableName).child(name);
-                    mContactDatabaseReference.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            i = 0;
-                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                                arr1.add(i, (String) ds.getValue());
-                            }
-
-                            if (true) {
-                                if (!arr1.contains(name)) {
-                                    //Toast.makeText(getContext(), "Adding to favorites", Toast.LENGTH_SHORT).show();
-                                    arr1.add(i, name);
-                                    Collections.sort(arr1);
-                                    mContactDatabaseReference.setValue(arr1);
-
+                        //Add to database
+                        i = 0;
+                        arr1 = new ArrayList<String>();
+                        mContactDatabaseReference = mFirebaseDatabase.getReference().child(DatabaseContactTableName).child(name);
+                        mContactDatabaseReference.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                i = 0;
+                                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                    arr1.add(i, (String) ds.getValue());
                                 }
 
+                                if (true) {
+                                    if (!arr1.contains(name)) {
+                                        //Toast.makeText(getContext(), "Adding to favorites", Toast.LENGTH_SHORT).show();
+                                        arr1.add(i, name);
+                                        Collections.sort(arr1);
+                                        mContactDatabaseReference.setValue(arr1);
+                                    }
+                                }
                             }
 
-                        }
+                            @Override
+                            public void onCancelled(DatabaseError error) {
+                                // Failed to read value
+                                Log.w(TAG, "Failed to add value.", error.toException());
+                            }
+                        });
+                    }
+                    else
+                    {
+                        Toast.makeText(getContext(), "You Must Login First...", Toast.LENGTH_SHORT).show();
+                        Fragment login = new Login();
+                        getFragmentManager().beginTransaction().replace(R.id.login_frame, login).setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
 
-
-                        @Override
-                        public void onCancelled(DatabaseError error) {
-                            // Failed to read value
-                            Log.w(TAG, "Failed to add value.", error.toException());
-                        }
-                    });
-
-
-
+                    }
                 }
 
-
         });
-
-
     }
 }
 

@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Favourites extends Fragment {
-    public String arr[]=new String[12];
+    public String arr[]=new String[100];
     public int i=0;
     public int j = 0 ;
     private static final String TAG = "Favourites";
