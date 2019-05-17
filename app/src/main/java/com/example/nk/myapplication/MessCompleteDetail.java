@@ -13,10 +13,12 @@ public class MessCompleteDetail {
     String service;
     String feast;
     String messUID;
+    String photoURL;
 
 
 
-    public MessCompleteDetail(String address, String contactNumber, String guestTiffinCharges, String menus, String messName, String messOwner, String messRate, String messType, String remarks, String service, String feast, String messUID) {
+
+    public MessCompleteDetail(String address, String contactNumber, String guestTiffinCharges, String menus, String messName, String messOwner, String messRate, String messType, String remarks, String service, String feast, String messUID,String photoURL) {
         this.address = address;
         this.contactNumber = contactNumber;
         this.guestTiffinCharges = guestTiffinCharges;
@@ -29,10 +31,19 @@ public class MessCompleteDetail {
         this.service = service;
         this.feast = feast;
         this.messUID = messUID;
+        this.photoURL = photoURL;
 
     }
 
     public MessCompleteDetail() {
+    }
+
+    public String getPhotoURL() {
+        return photoURL;
+    }
+
+    public void setPhotoURL(String photoURL) {
+        this.photoURL = photoURL;
     }
 
     public String getAddress() {

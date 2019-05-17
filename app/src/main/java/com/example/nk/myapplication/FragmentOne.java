@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.content.DialogInterface;
@@ -34,7 +35,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import android.widget.Toolbar;
 
-
+import com.bumptech.glide.Glide;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -62,6 +63,8 @@ private ImageView serviceType;
     private TextView messOwnerTextView;
     private TextView messRateTextView;
     private TextView remarksTextiew;
+    private ImageView messImage;
+    private ProgressBar progressBar;
 
     private Button btn_fav, view_contact;
     private ArrayList<String> arr,arr1;
@@ -93,9 +96,10 @@ private ImageView serviceType;
         messRateTextView = (TextView) getView().findViewById(R.id.rates);
         remarksTextiew = (TextView) getView().findViewById(R.id.remarks);
         menusTextView = (TextView) getView().findViewById(R.id.Menus);
-
+        messImage = getView().findViewById(R.id.messImageview);
         btn_fav = (Button) getView().findViewById(R.id.add_to_fav);
         view_contact = (Button) getView().findViewById(R.id.veiw_contact);
+        progressBar = getView().findViewById(R.id.progressBar);
 
         name = Home.str;
 
@@ -117,21 +121,25 @@ private ImageView serviceType;
                         contact=messCompleteDetail.getContactNumber();
                         mess=messCompleteDetail.getMessName();
                         address=messCompleteDetail.getAddress();
+                        messImage.setVisibility(View.VISIBLE);
+                        Glide.with(messImage.getContext())
+                                .load(messCompleteDetail.getPhotoURL())
+                                .into(messImage);
+                        progressBar.setVisibility(View.INVISIBLE);
                         if(messCompleteDetail.getMessType().equalsIgnoreCase("veg"))
                         {
                             messType.setImageResource(R.drawable.veg);
                         }
                         else
                         {
-                            messType.setImageResource(R.drawable.both1);
-                        }
+                            messType.setImageResource(R.drawable.vegn);                        }
                         if(messCompleteDetail.getService().equalsIgnoreCase("tiffin"))
                         {
-                            serviceType.setImageResource(R.drawable.tiffin);
+                            serviceType.setImageResource(R.drawable.tif);
                         }
                         else if(messCompleteDetail.getService().equalsIgnoreCase("mess"))
                         {
-                            serviceType.setImageResource((R.drawable.messonly));
+                            serviceType.setImageResource((R.drawable.mes));
                         }
                         else
                         {
@@ -149,7 +157,7 @@ private ImageView serviceType;
 
         SharedPreferences sharedpreferences = getContext().getSharedPreferences(Login.MyPREFERENCES, getContext().MODE_PRIVATE);
         String ph = sharedpreferences.getString("Phone", "");
-        if (ph.length() > 1)
+        if (ph.length() < 0)
         {
 
         }
@@ -169,7 +177,7 @@ private ImageView serviceType;
                         if (arr.contains(name))
                         {
 
-                          //      Toast.makeText(getActivity(), "It's your  favorites mess", Toast.LENGTH_SHORT).show();
+//                                Toast.makeText(getActivity(), "It's your  favorites mess", Toast.LENGTH_SHORT).show();
                             btn_fav.setEnabled(false);
                         }
                     }
@@ -186,6 +194,7 @@ private ImageView serviceType;
             btn_fav.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     Log.w(TAG,"btn fav clicked");
                     SharedPreferences sharedpreferences = getContext().getSharedPreferences(Login.MyPREFERENCES, getContext().MODE_PRIVATE);
                     String ph = sharedpreferences.getString("Phone", "");
@@ -225,13 +234,13 @@ private ImageView serviceType;
                 }
             });
             view_contact.setOnClickListener(new View.OnClickListener() {
-                SharedPreferences sharedpreferences = getContext().getSharedPreferences(Login.MyPREFERENCES, getContext().MODE_PRIVATE);
-                String ph = sharedpreferences.getString("Phone", "");
-                String uname = sharedpreferences.getString("Name", "");
+
 
                 @Override
                 public void onClick(View view) {
-
+                    SharedPreferences sharedpreferences = getContext().getSharedPreferences(Login.MyPREFERENCES, getContext().MODE_PRIVATE);
+                    String ph = sharedpreferences.getString("Phone", "");
+                    String uname = sharedpreferences.getString("Name", "");
                     if (!hasValidPreConditions()) return;
 
                     if (ph.length() > 0) {

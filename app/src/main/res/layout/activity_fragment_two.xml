@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:layout_below="@id/liner">
+        android:layout_below="@id/cardR">
 
         <ListView
             android:id="@+id/revewListView"
@@ -27,31 +27,40 @@
             tools:listitem="@layout/item_reviews"
  />
     </LinearLayout>
+<android.support.v7.widget.CardView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="10dp"
+    android:id="@+id/cardR"
+    android:padding="10dp"
+    android:layout_margin="5dp"
+    app:contentPadding="25dp"
+    >
 
-<LinearLayout
+    <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="5dp"
-    android:id="@+id/liner">
+        android:padding="5dp"
+    >
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+
         android:text="Write Your Review and Write the comment"
         />
     <RatingBar
         android:layout_below="@id/textView1"
         android:id="@+id/ratingBarView"
-        android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
     <EditText
-        android:hint="Write Your Comment ..."
+        android:hint="write a comment ..."
         android:layout_below="@id/ratingBarView"
         android:id="@+id/CommentText"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         />
@@ -61,11 +70,14 @@
         android:id="@+id/buttonSubmit"
         android:layout_marginTop="5dp"
         android:textSize="15dp"
+        android:textColor="@color/white"
         android:background="@drawable/listview_background"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Submit" />
+        android:text="Submit Review" />
 </LinearLayout>
+</android.support.v7.widget.CardView>
+
 
 
 </RelativeLayout>
