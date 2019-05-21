@@ -57,8 +57,8 @@ public class FragmentOne extends Fragment {
     private TextView messNameView;
     private TextView menusTextView;
     private TextView feastTextView;
-private ImageView messType;
-private ImageView serviceType;
+    private ImageView messType;
+    private ImageView serviceType;
     private TextView guestTiffinChargesTextView;
     private TextView messOwnerTextView;
     private TextView messRateTextView;
@@ -162,7 +162,7 @@ private ImageView serviceType;
 
         }
         else
-            {
+        {
             i = 0;
             arr = new ArrayList<String>();
             mFavDatabaseReference = mFirebaseDatabase.getReference().child(DatabaseFavrateTableName).child(ph).child("messID");
@@ -211,11 +211,11 @@ private ImageView serviceType;
                                     arr.add(i, (String) ds.getValue());
                                 }
                                 if (!arr.contains(name)) {
-                                        Toast.makeText(getContext(), "Adding to favorites", Toast.LENGTH_SHORT).show();
-                                        arr.add(i, name);
-                                        Collections.sort(arr);
-                                        mFavDatabaseReference.setValue(arr);
-                                        Toast.makeText(getContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getContext(), "Adding to favorites", Toast.LENGTH_SHORT).show();
+                                    arr.add(i, name);
+                                    Collections.sort(arr);
+                                    mFavDatabaseReference.setValue(arr);
+                                    Toast.makeText(getContext(), "Added to favorites", Toast.LENGTH_SHORT).show();
                                 }
                             }
                             @Override
@@ -288,9 +288,9 @@ private ImageView serviceType;
                     }
                 }
 
-        });
+            });
+        }
     }
-}
 
 
     /**

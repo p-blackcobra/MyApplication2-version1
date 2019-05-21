@@ -103,7 +103,6 @@ public class Login extends Fragment {
             public void onClick(View view) {
                 Fragment signUp = new SignUp();
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, signUp).setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
-
             }
         });
         btnSignIn.setOnClickListener(new View.OnClickListener() {

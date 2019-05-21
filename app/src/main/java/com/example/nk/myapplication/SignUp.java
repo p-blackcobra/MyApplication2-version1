@@ -88,8 +88,9 @@ public class  SignUp extends Fragment {
                         SmsHelper.sendDebugSms(edtPhone.getText().toString(), SmsHelper.SMS_CONDITION + "Verification Code is " + otp);
                         Toast.makeText(getContext(), R.string.toast_sending_sms, Toast.LENGTH_SHORT).show();
                         match = otp;
+                        btnOTP.setVisibility(View.INVISIBLE);
+                        btnSignUp.setVisibility(View.VISIBLE);
                     }
-
 
                 }
 
@@ -99,18 +100,16 @@ public class  SignUp extends Fragment {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(match.equals(edtOTP.getText().toString()))
+                awesomeValidation.addValidation(getActivity(), R.id.edtOTP, match,R.string.OTPError);
+                if(awesomeValidation.validate())
                 {
-
-
                 if (Common.isConnectedToInternet(getContext())) {
                     //otp=edtCode.getText().toString();
                     //PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationCode, otp);
                     //SigninWithPhone(credential);
                     final ProgressDialog mDialog = new ProgressDialog(getContext());
                     mDialog.setMessage("Please wait...");
-                    if (awesomeValidation.validate()) {
-                        mDialog.show();
+                    mDialog.show();
                         table_user.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -138,7 +137,6 @@ public class  SignUp extends Fragment {
 
                             }
                         });
-                    }
                 }
                 else {
                     Toast.makeText(getContext(), "Internet Connection Failed...", Toast.LENGTH_SHORT).show();
@@ -230,4 +228,3 @@ public class  SignUp extends Fragment {
                 SMS_PERMISSION_CODE);
     }
 }
-
