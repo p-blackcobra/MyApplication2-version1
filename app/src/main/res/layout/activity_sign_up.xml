@@ -110,7 +110,7 @@
                 android:textSize="15sp"
                 android:text="Sign Up"
                 android:background="@drawable/listview_background"
-
+                android:visibility="invisible"
                />
 
         </LinearLayout>

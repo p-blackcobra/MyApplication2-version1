@@ -30,7 +30,7 @@
         <item>Jamil Colony</item>
         <item>Mahendra Colony, new cotton market</item>
         <item>Jawahar Stadium</item>
-        <item> Vilas Nagar</item>
+        <item>Vilas Nagar</item>
         <item>Chaparasi Pura</item>
         <item>Wadali</item>
         <item>Dastur Nagar</item>
@@ -81,7 +81,7 @@
     <string name="permission_dialog_message">The app will now request your permission to send and read SMS related services.</string>
 
     <string name="error_invalid_phone_number">Invalid phone number</string>
-
+    <string name="OTPError">OTP Not Match</string>
 
 
 </resources>
