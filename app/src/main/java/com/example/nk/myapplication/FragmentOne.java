@@ -78,16 +78,16 @@ private ImageView serviceType;
     private final String DatabaseFavrateTableName = "favourate";
     private final String DatabaseContactTableName = "contact";
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.activity_fragment_one, container, false);
-    }
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            return inflater.inflate(R.layout.activity_fragment_one, container, false);
+        }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+        @Override
+        public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+            super.onViewCreated(view, savedInstanceState);
 
-        messType = (ImageView)getView().findViewById(R.id.type);
+            messType = (ImageView)getView().findViewById(R.id.type);
         serviceType = (ImageView)getView().findViewById(R.id.service_type);
         messNameView = (TextView) getView().findViewById(R.id.messName);
         feastTextView = (TextView) getView().findViewById(R.id.feast);

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -58,8 +59,8 @@ public class Home extends Fragment {
 
     private EditText search_keyword;
 
-    int veg, service_type;
-    String area;
+    public static int veg, service_type;
+    public static String area;
     String keywrd;
 
     AlertDialog alertDialog1;
@@ -358,6 +359,7 @@ public class Home extends Fragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Sort By ...");
+        builder.setIcon(R.drawable.ic_sort_black_24dp);
         builder.setSingleChoiceItems(values, -1, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int item) {
                 switch(item)
