@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         toggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-setHeaderFields();
+        setHeaderFields();
         navigationView.setNavigationItemSelectedListener(this);
         hideItem();
         displaySelectedScreen(R.id.nav_home);
@@ -65,11 +65,10 @@ setHeaderFields();
     private void hideItem()
     {
         final String phone=settings.getString("Phone", "").toString();
-        final String password=settings.getString("Password","").toString();
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
 
         Menu nav_Menu = navigationView.getMenu();
-        if(!(phone.isEmpty() && password.isEmpty()))
+        if(!(phone.isEmpty()))
         {
 //            LogoHeadr =(TextView)findViewById(R.id.imageTexViewView);
 //            UserNameHeadr =(TextView)findViewById(R.id.userNameTextView);
@@ -112,8 +111,7 @@ setHeaderFields();
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         final String phone=settings.getString("Phone", "").toString();
-        final String password=settings.getString("Password","").toString();
-        if(!(phone.isEmpty() && password.isEmpty())) {
+        if(!(phone.isEmpty())) {
             menu.findItem(R.id.favorites_menu).setVisible(true);
         }
         return true;
@@ -218,12 +216,10 @@ setHeaderFields();
         View headerView = navigationView.getHeaderView(0);
         TextView logoTextView = (TextView)headerView.findViewById(R.id.imageTexViewView);
         TextView userNameTextView = (TextView)headerView.findViewById(R.id.userNameTextView);
-        TextView userMailTextView = (TextView)headerView.findViewById(R.id.EmailTextView);
         if((settings.getString("Name","")).length()>0) {
 
             //logoTextView.setText((settings.getString("Name", "")).charAt(0));
-            userNameTextView.setText(settings.getString("Name", ""));
-            userMailTextView.setText(settings.getString("EmailId", ""));
+            userNameTextView.setText("Welcome, \n" + settings.getString("Name", ""));
         }
         else
         {

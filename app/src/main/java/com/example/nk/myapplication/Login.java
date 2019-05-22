@@ -1,11 +1,18 @@
 package com.example.nk.myapplication;
 
+import android.Manifest;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +31,13 @@ import com.example.nk.myapplication.Model.User;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.basgeekball.awesomevalidation.ValidationStyle;
 public class Login extends Fragment {
-    EditText edtPhone, edtPassword;
-    Button btnSignIn;
+    private static final String TAG = "SignIn";
+    private static final int SMS_PERMISSION_CODE = 0;
+    EditText edtPhone,edtOTP;
+    Button btnSignIn,btnOTP;
     TextView txtsignUp,txtForgot;
+    String match,otp;
     public static final String MyPREFERENCES = "MyPrefs" ;
-    public static final String Password = "Password";
     public static final String Phone = "Phone";
     SharedPreferences sharedpreferences;
     private AwesomeValidation awesomeValidation;
@@ -44,25 +53,23 @@ public class Login extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        edtPassword = (EditText) getView().findViewById(R.id.edtPassword);
         edtPhone = (EditText) getView().findViewById(R.id.edtPhone);
+        edtOTP=(EditText)getView().findViewById(R.id.edtOTP);
         btnSignIn = (Button) getView().findViewById(R.id.btnSignIn);
+        btnOTP=(Button)getView().findViewById(R.id.btnOTP);
         txtsignUp = (TextView) getView().findViewById(R.id.txtSignUp);
        // txtForgot = (TextView) getView().findViewById(R.id.txtForgot);
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference table_user = database.getReference("User");
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
         awesomeValidation.addValidation(getActivity(), R.id.edtPhone, "^[2-9]{2}[0-9]{8}$", R.string.mobileerror);
-        String regexPassword = ".{8,}";
-        awesomeValidation.addValidation(getActivity(), R.id.edtPassword, regexPassword, R.string.passworderror);
         /*
          * Check if we successfully logged in before.
          * If we did, redirect to home page
          */
         final SharedPreferences login = getContext().getSharedPreferences(Login.MyPREFERENCES,getContext().MODE_PRIVATE);
         final String phone=login.getString("Phone", "").toString();
-        final String password=login.getString("Password","").toString();
-        if(phone.isEmpty() && password.isEmpty()) {
+        if(phone.isEmpty()) {
 
         }
         else
@@ -105,60 +112,126 @@ public class Login extends Fragment {
                 getFragmentManager().beginTransaction().replace(R.id.content_frame, signUp).setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
             }
         });
+        btnOTP.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View view) {
+                if (!hasValidPreConditions()) return;
+                int randomPin   =(int)(Math.random()*9000)+1000;
+                otp  =String.valueOf(randomPin);
+
+                if(awesomeValidation.validate()) {
+                    SmsHelper.sendDebugSms(edtPhone.getText().toString(), SmsHelper.SMS_CONDITION + "Verification Code is " + otp);
+                    Toast.makeText(getContext(), R.string.toast_sending_sms, Toast.LENGTH_SHORT).show();
+                    match = otp;
+                    btnOTP.setVisibility(View.GONE);
+                    btnSignIn.setVisibility(View.VISIBLE);
+                }
+
+            }
+
+
+        });
         btnSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                 if (Common.isConnectedToInternet(getContext())) {
+                awesomeValidation.addValidation(getActivity(), R.id.edtOTP, match,R.string.OTPError);
+                if(awesomeValidation.validate()) {
+                    if (Common.isConnectedToInternet(getContext())) {
 
-                    final ProgressDialog mDialog = new ProgressDialog(getContext());
-                    mDialog.setMessage("Please wait...");
-                    if(awesomeValidation.validate()) {
-                        mDialog.show();
-                        table_user.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
+                        final ProgressDialog mDialog = new ProgressDialog(getContext());
+                        mDialog.setMessage("Please wait...");
+                        if (awesomeValidation.validate()) {
+                            mDialog.show();
+                            table_user.addValueEventListener(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
 
-                                //check if user exist or not
-                                if (dataSnapshot.child(edtPhone.getText().toString()).exists()) {
-                                    mDialog.dismiss();
-                                    //get user information
-                                    User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
-                                    user.setPhone(edtPhone.getText().toString()); // set Phone
-                                    if (user.getPassword().equals(edtPassword.getText().toString())) {
-                                        SharedPreferences.Editor editor = login.edit();
-                                        editor.putString(Password, user.getPassword());
-                                        editor.putString(Phone, user.getPhone());
-                                        editor.putString("EmailId", user.getEmailId());
-                                        editor.putString("Name", user.getName());
-                                        editor.commit();
-                                        Toast.makeText(getContext(), "Login Successfull...", Toast.LENGTH_SHORT).show();
-                                        Common.currentUser = user;
-                                        Intent intent = new Intent(getContext(), MainActivity.class);
-                                        startActivity(intent);
-                                        //Fragment home = new Home();
-                                        //getFragmentManager().beginTransaction().replace(R.id.content_frame, home).setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+                                    //check if user exist or not
+                                    if (dataSnapshot.child(edtPhone.getText().toString()).exists()) {
+                                        mDialog.dismiss();
+                                        //get user information
+                                        User user = dataSnapshot.child(edtPhone.getText().toString()).getValue(User.class);
+                                        user.setPhone(edtPhone.getText().toString()); // set Phone
+                                        if (user.getPhone().equals(edtPhone.getText().toString())) {
+                                            SharedPreferences.Editor editor = login.edit();
+                                            editor.putString(Phone, user.getPhone());
+                                            editor.putString("Name", user.getName());
+                                            editor.commit();
+                                            Toast.makeText(getContext(), "Login Successfull...", Toast.LENGTH_SHORT).show();
+                                            Common.currentUser = user;
+                                            Intent intent = new Intent(getContext(), MainActivity.class);
+                                            startActivity(intent);
+                                            //Fragment home = new Home();
+                                            //getFragmentManager().beginTransaction().replace(R.id.content_frame, home).setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+                                        } else {
+                                            Toast.makeText(getContext(), "SignIn failed...", Toast.LENGTH_SHORT).show();
+                                        }
                                     } else {
-                                        Toast.makeText(getContext(), "SignIn failed...", Toast.LENGTH_SHORT).show();
+                                        mDialog.dismiss();
+                                        Toast.makeText(getContext(), "User not exist...", Toast.LENGTH_SHORT).show();
                                     }
-                                } else {
-                                    mDialog.dismiss();
-                                    Toast.makeText(getContext(), "User not exist...", Toast.LENGTH_SHORT).show();
                                 }
-                            }
 
-                            @Override
-                            public void onCancelled(DatabaseError databaseError) {
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
 
-                            }
-                        });
+                                }
+                            });
+                        }
                     }
-                } else {
-                    Toast.makeText(getContext(), "Internet Connection Failed...", Toast.LENGTH_SHORT).show();
-                    return;
+                    else {
+                        Toast.makeText(getContext(), "Internet Connection Failed...", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                 }
             }
         });
         //you can set the title for your toolbar here for different fragments different titles
         getActivity().setTitle("Login");
+    }
+    private boolean hasValidPreConditions() {
+        if (!hasReadSmsPermission()) {
+            requestReadAndSendSmsPermission();
+            return false;
+        }
+
+
+        return true;
+    }
+    /**
+     * Optional informative alert dialog to explain the user why the app needs the Read/Send SMS permission
+     */
+    private void showRequestPermissionsInfoAlertDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle(R.string.permission_alert_dialog_title);
+        builder.setMessage(R.string.permission_dialog_message);
+        builder.setPositiveButton(R.string.action_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                requestReadAndSendSmsPermission();
+            }
+        });
+        builder.show();
+    }
+
+    /**
+     * Runtime permission shenanigans
+     */
+    private boolean hasReadSmsPermission() {
+        return ContextCompat.checkSelfPermission(getContext(),
+                Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(getContext(),
+                        Manifest.permission.RECEIVE_SMS) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestReadAndSendSmsPermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.READ_SMS)) {
+            Log.d(TAG, "shouldShowRequestPermissionRationale(), no permission requested");
+            return;
+        }
+        ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.READ_SMS, Manifest.permission.RECEIVE_SMS},
+                SMS_PERMISSION_CODE);
     }
 }

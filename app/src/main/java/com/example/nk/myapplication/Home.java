@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -26,6 +27,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.nk.myapplication.Model.Retrieve_loc_from_firebase;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -49,8 +51,8 @@ public class Home extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout;
     private ListView mMessListView;
     private MessAdapter mMessAdapter;
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mMessDatabaseReference;
+    private FirebaseDatabase mFirebaseDatabase,db;
+    private DatabaseReference mMessDatabaseReference,dbref;
 
     private Button btn_filter;
     private  Button btn_sortby;
@@ -180,6 +182,9 @@ public class Home extends Fragment {
                            }}
                        }
                        Spinner spinner_area = (Spinner)dialog.findViewById(R.id.spinner_area);
+                       //dbref=FirebaseDatabase.getInstance().getReference("Location");
+                       //Retrieve_loc_from_firebase helper=new Retrieve_loc_from_firebase(dbref);
+                       //spinner_area.setAdapter(new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,helper.retrieve()));
                        Spinner spinner_service =(Spinner)dialog.findViewById(R.id.spinner_service);
                        area  = spinner_area.getSelectedItem().toString();
                        if(! area.equalsIgnoreCase("All"))
@@ -237,7 +242,6 @@ public class Home extends Fragment {
                     }
                 });
                 dialog.show();
-
             }
         });
 
