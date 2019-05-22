@@ -15,6 +15,8 @@ public class MessAbstract {
     private String feast;
 
 
+    String photoURL;
+
 
     private String messUID;
 
@@ -22,7 +24,7 @@ public class MessAbstract {
 
     }
 
-    public MessAbstract(String messName, String messType, String messRate, String address, String contactNumber, String guestTiffinCharges, String menus, String messOwner, String remarks, String service, String feast,String messUID,String area) {
+    public MessAbstract(String messName, String messType, String messRate, String address, String contactNumber, String guestTiffinCharges, String menus, String messOwner, String remarks, String service, String feast,String messUID,String area,String photoURL) {
         this.messName = messName;
         this.messType = messType;
         this.messRate = messRate;
@@ -36,9 +38,18 @@ public class MessAbstract {
         this.feast = feast;
         this.messUID = messUID;
         this.area = area ;
+        this.photoURL=photoURL;
 
 
     }
+    public String getPhotoURL() {
+        return photoURL;
+    }
+
+    public void setPhotoURL(String photoURL) {
+        this.photoURL = photoURL;
+    }
+
     public String getArea() {
         return area;
     }

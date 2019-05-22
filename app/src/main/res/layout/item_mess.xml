@@ -13,7 +13,6 @@
         android:id="@+id/mess_tiffin"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:src="@drawable/tiffin"
 
         />
 <LinearLayout
