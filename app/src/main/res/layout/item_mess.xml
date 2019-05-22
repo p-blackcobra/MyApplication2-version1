@@ -39,7 +39,7 @@
         android:layout_weight="0"
         android:textAppearance="?android:attr/textAppearanceSmall"
         tools:text="Type"
-        android:textColor="#03da0a"
+        android:textColor="#1b5e20"
         android:fontFamily="@font/audiowideregular"/>
     <TextView
         android:id="@+id/rate"
