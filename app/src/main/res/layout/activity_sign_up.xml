@@ -47,18 +47,6 @@
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:gravity="center"
-                android:id="@+id/edtNewEmail"
-                android:hint="Email"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="text"
-                android:layout_marginBottom="5dp"
-                />
-            <EditText
-                android:background="@drawable/outline_button"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:gravity="center"
                 android:id="@+id/edtNewPhone"
                 android:hint="Telephone Number"
                 android:layout_width="match_parent"
@@ -67,18 +55,6 @@
                 android:layout_marginBottom="5dp"
                 />
 
-            <EditText
-                android:background="@drawable/outline_button"
-                android:paddingTop="5dp"
-                android:paddingBottom="5dp"
-                android:gravity="center"
-                android:id="@+id/edtNewPassword"
-                android:hint="Password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-               android:inputType="textPassword"
-                android:layout_marginBottom="5dp"
-                />
             <EditText
                 android:background="@drawable/outline_button"
                 android:paddingTop="5dp"
@@ -100,8 +76,6 @@
                 android:text="Generate OTP"
                 android:textColor="@android:color/black"
                 android:textSize="15sp" />
-
-
             <Button
                 android:id="@+id/btnSignUp"
                 android:layout_width="match_parent"
@@ -110,7 +84,7 @@
                 android:textSize="15sp"
                 android:text="Sign Up"
                 android:background="@drawable/listview_background"
-                android:visibility="invisible"
+                android:visibility="gone"
                />
 
         </LinearLayout>

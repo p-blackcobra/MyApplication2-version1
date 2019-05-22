@@ -67,12 +67,9 @@ public class Settings extends Fragment {
                                 mDialog.dismiss();
                             User user = dataSnapshot.child(phone).getValue(User.class);
                             if (password.equals(edtPwd.getText().toString())) {
-                                   user.setPassword(edtNewPwd.getText().toString());
-                                   user.setEmailId(email);
                                    user.setName(name);
                                    table_user.child(phone).setValue(user);
                                    SharedPreferences.Editor editor = login.edit();
-                                   editor.putString("Password", user.getPassword());
                                    editor.putString("Phone", user.getPhone());
                                    editor.commit();
                                    Toast.makeText(getContext(), "Password Changed Successfully...", Toast.LENGTH_SHORT).show();

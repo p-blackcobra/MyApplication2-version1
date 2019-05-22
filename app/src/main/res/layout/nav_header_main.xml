@@ -28,10 +28,4 @@
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:textColor="@color/grayDarkColor"
          />
-
-    <TextView
-        android:id="@+id/EmailTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="@color/grayDarkColor"/>
 </LinearLayout>

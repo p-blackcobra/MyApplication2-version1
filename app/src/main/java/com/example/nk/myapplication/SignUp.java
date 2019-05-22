@@ -36,7 +36,7 @@ public class  SignUp extends Fragment {
     private static final String PREF_USER_MOBILE_PHONE = "pref_user_mobile_phone";
     private static final int SMS_PERMISSION_CODE = 0;
 
-    EditText edtPhone, edtName, edtPassword, edtEmail,edtOTP;
+    EditText edtPhone, edtName,edtOTP;
     Button btnSignUp,btnOTP;
     //defining AwesomeValidation object
     private AwesomeValidation awesomeValidation;
@@ -45,7 +45,6 @@ public class  SignUp extends Fragment {
     //FirebaseAuth auth;
     //PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallback;
     //private String verificationCode;
-    public static final String Password = "Password";
     public static final String Phone = "Phone";
     @Nullable
 
@@ -60,19 +59,14 @@ public class  SignUp extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         edtName = (EditText)getView().findViewById(R.id.edtNewUserName);
-        edtPassword = (EditText)getView().findViewById(R.id.edtNewPassword);
         edtPhone = (EditText)getView().findViewById(R.id.edtNewPhone);
-        edtEmail = (EditText)getView().findViewById(R.id.edtNewEmail);
         edtOTP = getView().findViewById(R.id.edtOTP);
         btnSignUp = getView().findViewById(R.id.btnSignUp);
         btnOTP = getView().findViewById(R.id.btnOTP);
         //StartFirebaseLogin();
         awesomeValidation = new AwesomeValidation(ValidationStyle.BASIC);
         awesomeValidation.addValidation(getActivity(), R.id.edtNewUserName, "^[A-Za-z\\s]{1,}[\\.]{0,1}[A-Za-z\\s]{0,}$", R.string.nameerror);
-        awesomeValidation.addValidation(getActivity(), R.id.edtNewEmail, Patterns.EMAIL_ADDRESS, R.string.emailerror);
         awesomeValidation.addValidation(getActivity(), R.id.edtNewPhone, "^[2-9]{2}[0-9]{8}$", R.string.mobileerror);
-        String regexPassword = ".{8,}";
-        awesomeValidation.addValidation(getActivity(), R.id.edtNewPassword, regexPassword, R.string.passworderror);
         // Init Firebase
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference table_user = database.getReference("User");
@@ -88,7 +82,7 @@ public class  SignUp extends Fragment {
                         SmsHelper.sendDebugSms(edtPhone.getText().toString(), SmsHelper.SMS_CONDITION + "Verification Code is " + otp);
                         Toast.makeText(getContext(), R.string.toast_sending_sms, Toast.LENGTH_SHORT).show();
                         match = otp;
-                        btnOTP.setVisibility(View.INVISIBLE);
+                        btnOTP.setVisibility(View.GONE);
                         btnSignUp.setVisibility(View.VISIBLE);
                     }
 
@@ -96,7 +90,6 @@ public class  SignUp extends Fragment {
 
 
         });
-
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,11 +112,10 @@ public class  SignUp extends Fragment {
                                     Toast.makeText(getContext(), "User already registered...", Toast.LENGTH_SHORT);
                                 } else {
                                     mDialog.dismiss();
-                                    User user = new User(edtName.getText().toString(), edtPassword.getText().toString(), edtEmail.getText().toString());
+                                    User user = new User(edtName.getText().toString());
                                     table_user.child(edtPhone.getText().toString()).setValue(user);
                                     SharedPreferences sharedpreferences = getContext().getSharedPreferences(Login.MyPREFERENCES, getContext().MODE_PRIVATE);
                                     SharedPreferences.Editor editor = sharedpreferences.edit();
-                                    editor.putString(Password, user.getPassword());
                                     editor.putString(Phone, user.getPhone());
                                     editor.commit();
                                     Toast.makeText(getContext(), "SignUp Successfull...", Toast.LENGTH_SHORT);
@@ -142,10 +134,6 @@ public class  SignUp extends Fragment {
                     Toast.makeText(getContext(), "Internet Connection Failed...", Toast.LENGTH_SHORT).show();
                 }
             }
-            else
-                {
-                    Toast.makeText(getContext(), "OTP doesn't match!", Toast.LENGTH_SHORT).show();
-                }
         }});
 
         getActivity().setTitle("Register User");
