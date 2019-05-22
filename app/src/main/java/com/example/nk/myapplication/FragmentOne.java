@@ -101,7 +101,7 @@ public class FragmentOne extends Fragment {
         view_contact = (Button) getView().findViewById(R.id.veiw_contact);
         progressBar = getView().findViewById(R.id.progressBar);
 
-        name = Home.str;
+        name = showing_list.str1;
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mMessDatabaseReference = mFirebaseDatabase.getReference().child(DatabaseName);

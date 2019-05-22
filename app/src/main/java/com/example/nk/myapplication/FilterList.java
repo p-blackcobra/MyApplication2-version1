@@ -31,7 +31,6 @@ private Spinner spinner_area;
         cancelButton =  getView().findViewById(R.id.filter_cancel);
         applyButton =  getView().findViewById(R.id.filter_apply);
         s = getView().findViewById(R.id.switch1);
-        spinner_area =  getView().findViewById(R.id.spinner_area);
         spinner_service =getView().findViewById(R.id.spinner_service);
         applyButton.setOnClickListener(new View.OnClickListener() {
             @Override

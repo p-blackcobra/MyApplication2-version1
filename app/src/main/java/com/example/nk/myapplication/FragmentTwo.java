@@ -46,7 +46,7 @@ public class FragmentTwo extends Fragment {
         mReviewsListview = (ListView) getView().findViewById(R.id.revewListView);
         // Initialize Firebase components
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mMessDatabaseReference = mFirebaseDatabase.getReference().child("reviews").child(Home.str);
+        mMessDatabaseReference = mFirebaseDatabase.getReference().child("reviews").child(showing_list.str1);
 
 
 

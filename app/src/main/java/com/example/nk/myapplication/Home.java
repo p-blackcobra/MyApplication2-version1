@@ -45,6 +45,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class Home extends Fragment {
+    public static String selected_location = "";
     public static String str = "";
     private static final String TAG = "HomeActivity";
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -55,6 +56,9 @@ public class Home extends Fragment {
 
     private Button btn_filter;
     private  Button btn_sortby;
+    private  Button select_area_btn;
+    private Button search_by_area_btn;
+
     private ImageButton btn_search;
 
     private EditText search_keyword;
@@ -64,7 +68,15 @@ public class Home extends Fragment {
     String keywrd;
 
     AlertDialog alertDialog1;
+    AlertDialog alertDialog2;
     CharSequence[] values = { " Mess Rates "," Rating "," Mess Name "};
+    CharSequence[] locations = {"All","Shegaon Naka","Panchawati","Gadge Nagar","Kathora Naka","Jamil Colony","Mahendra Colony, new cotton market","Jawahar Stadium","Vilas Nagar","Chaparasi Pura",        "Wadali",
+  "Dastur Nagar",
+       "Frejarpura","Rukhmini Nagar" ,"Ambapeth Gaurakshan","Jawahar gate","Chaya Nagar" ,"Gauli Pura","Alim Nagar","Gadgareshwar"        ,"Rajapeth "
+   ,"Sai nagar"
+      ,"Sutgirni","Juni Wasti, Badnera","Navi Wasti, Badnera","Farshi stop","Kanwar nagar","Pravin nagar","Ravi nagar"
+
+ ,"Irwin" ,"Navathe"};
 
     @Nullable
     @Override
@@ -93,297 +105,48 @@ public class Home extends Fragment {
 //            }
 //        });
 
-        swipeRefreshLayout =(SwipeRefreshLayout)getView().findViewById(R.id.pullToRefresh);
-         loadData();
-         btn_filter = (Button)getView().findViewById(R.id.filters);
-         btn_sortby = (Button)getView().findViewById(R.id.sortby);
-        btn_search = (ImageButton) getView().findViewById(R.id.search_btn);
 
-        btn_search.setOnClickListener(new View.OnClickListener() {
+
+
+
+
+        select_area_btn = getView().findViewById(R.id.select_area_button);
+        search_by_area_btn = getView().findViewById(R.id.search_by_area);
+        select_area_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                search_keyword = (EditText)getView().findViewById(R.id.search_keyword);
-                keywrd = search_keyword.getText().toString();
-                if(keywrd.length()>1) {
-                    mFirebaseDatabase = FirebaseDatabase.getInstance();
-                    mMessDatabaseReference = mFirebaseDatabase.getReference().child("messdet");
-                 //  mMessDatabaseReference.orderByChild("area").startAt(keywrd).endAt(keywrd+"\uf8ff");
-                    // Initialize message ListView and its adapter
-                    final List<MessAbstract> mess = new ArrayList<>();
-                    mMessAdapter = new MessAdapter(getActivity(), R.layout.item_mess,mess);
-                    mMessListView.setAdapter(mMessAdapter);
-                    mMessDatabaseReference.addValueEventListener(new ValueEventListener() {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Select Area ... ");
+                builder.setIcon(R.drawable.ic_location_on_black_24dp);
+                builder.setSingleChoiceItems(locations, -1, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
 
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            mMessAdapter.clear();
-                            for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                                MessAbstract messAbstract = ds.getValue(MessAbstract.class);
-                                String are=messAbstract.getArea();
-                                if(keywrd.regionMatches(true,0,messAbstract.getArea(),0,keywrd.length()) || keywrd.regionMatches(true,0,messAbstract.getMessName(),0,keywrd.length()) )
-                                {
-                                    Log.w(TAG,messAbstract.getMessUID()+"    " + messAbstract.getArea());
-                                    mMessAdapter.add(messAbstract);
-                            }
-                            }
-                        }
+                    select_area_btn.setText(locations[item]);
+                        alertDialog1.dismiss();
+                    }
+                });
+                alertDialog1 = builder.create();
+                alertDialog1.show();
 
-                        @Override
-                        public void onCancelled(DatabaseError error) {
-                            // Failed to read value
-                            Log.w(TAG, "Failed to read value.", error.toException());
-                        }
-                    });
-
-                }
             }
         });
-        btn_sortby.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
-                 CreateAlertDialogWithRadioButtonGroup() ;
-             }
-         });
-        btn_filter.setOnClickListener(new View.OnClickListener() {
+        search_by_area_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final Dialog dialog = new Dialog(getContext());
-                dialog.setContentView(R.layout.filter_dailog);
-                dialog.setTitle("Filter");
-               TextView cancelButton = (TextView) dialog.findViewById(R.id.filter_cancel);
-                TextView applyButton = (TextView) dialog.findViewById(R.id.filter_apply);
-
-                // if button is clicked, close the custom dialog
-                cancelButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-                applyButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                       Switch s = (Switch)dialog.findViewById(R.id.switch1);
-                       if(s.isChecked())
-                       {
-                           int i=0;
-                           while(i<mMessAdapter.getCount())
-                           {
-                               MessAbstract temp = mMessAdapter.getItem(i);
-                             if(! temp.getMessType().equalsIgnoreCase("Veg"))
-                               {
-                                   Log.w(TAG,"Removed"+temp.getMessName() + "    "+temp.getMessUID());
-                                   mMessAdapter.remove(temp);
-                               }
-                               else
-                             {
-                               i++;
-                           }}
-                       }
-                       Spinner spinner_area = (Spinner)dialog.findViewById(R.id.spinner_area);
-                       Spinner spinner_service =(Spinner)dialog.findViewById(R.id.spinner_service);
-                       area  = spinner_area.getSelectedItem().toString();
-                       if(! area.equalsIgnoreCase("All"))
-                       {
-                           int i=0;
-                           while(i<mMessAdapter.getCount())
-                           {
-                               MessAbstract temp = mMessAdapter.getItem(i);
-                               if(! temp.getArea().equalsIgnoreCase(area))
-                               {
-                                   Log.w(TAG,"Removed"+temp.getMessName() + "    "+temp.getMessUID());
-                                   mMessAdapter.remove(temp);
-                               }
-                               else
-                               {
-                                   i++;
-                               }}
-                       }
-                       service_type = spinner_service.getSelectedItemPosition();
-                        Log.w(TAG,"selected item id" + service_type);
-                       if(service_type==1)
-                       {
-                           int i=0;
-                           while(i<mMessAdapter.getCount())
-                           {
-                               MessAbstract temp = mMessAdapter.getItem(i);
-                               if(temp.getService().equalsIgnoreCase("Mess"))
-                               {
-                                   Log.w(TAG,"Removed"+temp.getMessName()+" "+temp.getService()+ "    "+temp.getMessUID());
-                                   mMessAdapter.remove(temp);
-                               }
-                               else
-                               {
-                                   i++;
-                               }}
-                       }
-                       else if (service_type==2)
-                       {
-                           int i=0;
-                           while(i<mMessAdapter.getCount())
-                           {
-                               MessAbstract temp = mMessAdapter.getItem(i);
-                               if( temp.getService().equalsIgnoreCase("Tiffin"))
-                               {
-                                   Log.w(TAG,"Removed"+temp.getMessName()+" "+temp.getService()+ "    "+temp.getMessUID());
-                                   mMessAdapter.remove(temp);
-                               }
-                               else
-                               {
-                                   i++;
-                               }}
-                       }
-                       dialog.dismiss();
-
-                    }
-                });
-                dialog.show();
+selected_location = select_area_btn.getText().toString();
+                Fragment fragment = new showing_list();
+                getFragmentManager().beginTransaction().replace(R.id.content_frame, fragment).setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
 
             }
         });
 
-        mMessListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
-            {
-                // Find the current earthquake that was clicked on
-                MessAbstract currentMess = mMessAdapter.getItem(position);
-                String messUID= currentMess.getMessUID();
-                str=messUID;
-                // Convert the String URL into a URI object (to pass into the Intent constructor)
-                Intent anotherActivityIntent = new Intent(getActivity(), contact.class);
-               //anotherActivityIntent.putExtra("MESSNAME",currentMess.getMessName());
-                startActivity(anotherActivityIntent);
 
 
-            }
-        });
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                loadData();
-                swipeRefreshLayout.setRefreshing(false);
-            }
-        });
+
+
+
         getActivity().setTitle("Home");
     }
-    public void loadData()
-    {
-        mMessListView = (ListView) getView().findViewById(R.id.messageListView);
-        // Initialize Firebase components
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mMessDatabaseReference = mFirebaseDatabase.getReference().child("messdet");
 
-        // Initialize message ListView and its adapter
-        List<MessAbstract> mess = new ArrayList<>();
-        mMessAdapter = new MessAdapter(getActivity(), R.layout.item_mess,mess);
-        mMessListView.setAdapter(mMessAdapter);
-        mMessDatabaseReference.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                mMessAdapter.clear();
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    MessAbstract messAbstract = ds.getValue(MessAbstract.class);
-                    mMessAdapter.add(messAbstract);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
-    }
-    public void loadData(int type,String area, int service)
-    {
-        mMessListView = (ListView) getView().findViewById(R.id.messageListView);
-        // Initialize Firebase components
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mMessDatabaseReference = mFirebaseDatabase.getReference().child("messdet");
-
-        // Initialize message ListView and its adapter
-        List<MessAbstract> mess = new ArrayList<>();
-        mMessAdapter = new MessAdapter(getActivity(), R.layout.item_mess,mess);
-        mMessListView.setAdapter(mMessAdapter);
-        mMessDatabaseReference.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                mMessAdapter.clear();
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    MessAbstract messAbstract = ds.getValue(MessAbstract.class);
-                    mMessAdapter.add(messAbstract);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
-    }
-    public void loadData(int n)
-    {
-        mMessListView = (ListView) getView().findViewById(R.id.messageListView);
-        // Initialize Firebase components
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mMessDatabaseReference = mFirebaseDatabase.getReference().child("messdet");
-
-        // Initialize message ListView and its adapter
-        List<MessAbstract> mess = new ArrayList<>();
-        mMessAdapter = new MessAdapter(getActivity(), R.layout.item_mess,mess);
-        mMessListView.setAdapter(mMessAdapter);
-        mMessDatabaseReference.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                mMessAdapter.clear();
-                for(DataSnapshot ds : dataSnapshot.getChildren()) {
-                    MessAbstract messAbstract = ds.getValue(MessAbstract.class);
-                    mMessAdapter.add(messAbstract);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
-    }
-    public void CreateAlertDialogWithRadioButtonGroup(){
-
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-        builder.setTitle("Sort By ...");
-        builder.setIcon(R.drawable.ic_sort_black_24dp);
-        builder.setSingleChoiceItems(values, -1, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int item) {
-                switch(item)
-                {
-                    case 0:{
-                        mMessAdapter.sort(0);
-                        Toast.makeText(getContext(), "Sorted by Rate", Toast.LENGTH_LONG).show();
-                        break;
-                    }
-                    case 1: {
-                        Toast.makeText(getContext(), "Sorted by Ratings", Toast.LENGTH_LONG).show();
-                        break;
-                    }
-                    case 2: {
-                        mMessAdapter.sort(2);
-                        Toast.makeText(getContext(), "Sorted by Name", Toast.LENGTH_LONG).show();
-                        break;
-                    }
-                }
-                alertDialog1.dismiss();
-            }
-        });
-        alertDialog1 = builder.create();
-        alertDialog1.show();
-    }
 
 }
