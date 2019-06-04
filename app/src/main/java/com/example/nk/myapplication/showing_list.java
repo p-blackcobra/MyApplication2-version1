@@ -221,6 +221,7 @@ noresult=getView().findViewById(R.id.noresult);
                 if(mMessAdapter.isEmpty())
                 {
                     noresult.setVisibility(View.VISIBLE);
+                    getView().setBackgroundColor(getResources().getColor(R.color.white));
                 }
                 else
                 {

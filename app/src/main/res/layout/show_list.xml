@@ -36,12 +36,15 @@
     <TextView
         android:layout_below="@id/ll1"
         android:layout_width="match_parent"
-        android:textSize="15sp"
+        android:textSize="25sp"
         android:layout_height="wrap_content"
         android:id="@+id/noresult"
+        android:padding="35dp"
         android:gravity="center"
         android:visibility="gone"
-        android:text="No Result found for this area"
+       android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/noresult"
         />
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_below="@id/ll1"

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".FragmentTwo"
-    android:background="#fafafa">
+    android:background="#f4f4f4">
 
     <LinearLayout
         android:id="@+id/revsection"

@@ -17,7 +17,7 @@
             android:id="@+id/select_area_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-            android:text="Select Area..."
+            android:text="@string/selectarea"
             android:background="@color/white"
             android:drawableRight="@drawable/ic_keyboard_arrow_down_black_24dp"
             android:drawableLeft="@drawable/ic_location_on_black_24dp"/>
@@ -41,7 +41,7 @@
         android:padding="5dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=" Ghar Se Dur, Gahr Jaisa "
+        android:text="@string/slogan"
 
         android:textSize="20sp"
         android:fontFamily="@font/lobsterregular"

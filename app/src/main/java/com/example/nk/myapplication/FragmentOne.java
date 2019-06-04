@@ -2,7 +2,9 @@ package com.example.nk.myapplication;
 
 import java.lang.String;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
 
 import android.Manifest;
 import android.content.SharedPreferences;
@@ -62,6 +64,7 @@ public class FragmentOne extends Fragment {
     private TextView guestTiffinChargesTextView;
     private TextView messOwnerTextView;
     private TextView messRateTextView;
+    private TextView messHalfRateTextView;
     private TextView remarksTextiew;
     private ImageView messImage;
     private ProgressBar progressBar;
@@ -94,6 +97,7 @@ public class FragmentOne extends Fragment {
         guestTiffinChargesTextView = (TextView) getView().findViewById(R.id.guestTiffinCharges);
         messOwnerTextView = (TextView) getView().findViewById(R.id.messOwner);
         messRateTextView = (TextView) getView().findViewById(R.id.rates);
+        messHalfRateTextView = (TextView) getView().findViewById(R.id.ratehalf);
         remarksTextiew = (TextView) getView().findViewById(R.id.remarks);
         menusTextView = (TextView) getView().findViewById(R.id.Menus);
         messImage = getView().findViewById(R.id.messImageview);
@@ -115,7 +119,8 @@ public class FragmentOne extends Fragment {
                         feastTextView.setText(messCompleteDetail.getFeast());
                         guestTiffinChargesTextView.setText(messCompleteDetail.getGuestTiffinCharges());
                         messOwnerTextView.setText(messCompleteDetail.getMessOwner());
-                        messRateTextView.setText(messCompleteDetail.getMessRate());
+                        messRateTextView.setText("(Full) "+messCompleteDetail.getMessRate());
+                        messHalfRateTextView.setText("(Half) "+messCompleteDetail.getMessHalfRate());
                         remarksTextiew.setText(messCompleteDetail.getRemarks());
                         menusTextView.setText(messCompleteDetail.getMenus());
                         contact=messCompleteDetail.getContactNumber();
@@ -126,7 +131,7 @@ public class FragmentOne extends Fragment {
                                 .load(messCompleteDetail.getPhotoURL())
                                 .into(messImage);
                         progressBar.setVisibility(View.INVISIBLE);
-                        if(messCompleteDetail.getMessType().equalsIgnoreCase("veg"))
+                        if(messCompleteDetail.getMessType().equalsIgnoreCase("veg")||messCompleteDetail.getMessType().equalsIgnoreCase("pure-veg") )
                         {
                             messType.setImageResource(R.drawable.veg);
                         }
@@ -251,33 +256,10 @@ public class FragmentOne extends Fragment {
 
 
                         //Add to database
-                        i = 0;
-                        arr1 = new ArrayList<String>();
+                        Date currentTime = Calendar.getInstance().getTime();
+                       MessViewedObject m1 = new MessViewedObject(ph,currentTime.toString());
                         mContactDatabaseReference = mFirebaseDatabase.getReference().child(DatabaseContactTableName).child(name);
-                        mContactDatabaseReference.addValueEventListener(new ValueEventListener() {
-                            @Override
-                            public void onDataChange(DataSnapshot dataSnapshot) {
-                                i = 0;
-                                for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                                    arr1.add(i, (String) ds.getValue());
-                                }
-
-                                if (true) {
-                                    if (!arr1.contains(name)) {
-                                        //Toast.makeText(getContext(), "Adding to favorites", Toast.LENGTH_SHORT).show();
-                                        arr1.add(i, name);
-                                        Collections.sort(arr1);
-                                        mContactDatabaseReference.setValue(arr1);
-                                    }
-                                }
-                            }
-
-                            @Override
-                            public void onCancelled(DatabaseError error) {
-                                // Failed to read value
-                                Log.w(TAG, "Failed to add value.", error.toException());
-                            }
-                        });
+                        mContactDatabaseReference.push().setValue(m1);
                     }
                     else
                     {

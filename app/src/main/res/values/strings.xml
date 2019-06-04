@@ -82,6 +82,13 @@
 
     <string name="error_invalid_phone_number">Invalid phone number</string>
     <string name="OTPError">OTP Not Match</string>
+    <string name="paraii">Messdekho is a platform for small business owners who provide good food at an affordable rate to get their businesses going by providing them a platform to advertise themselves without being heavy on their pockets.</string>
+    <string name="parai">Messdekho is an app which acts as a bridge between the students and working professionals in search of an affordable place to feed their hunger and the food providers who provide food in a pocket friendly rate.</string>
+    <string name="co_founders">Co-Founders</string>
+    <string name="nameofcfs"> Yamin Lakadkutta \n Abhinav Welankiwar \n Shubham Gadekar \n Subodh Latkar </string>
+    <string name="noresult">No Result found for this area</string>
+    <string name="slogan">Ghar Se Dur, Ghar Jaisa</string>
+    <string name="selectarea">Select Area...</string>
 
 
 </resources>

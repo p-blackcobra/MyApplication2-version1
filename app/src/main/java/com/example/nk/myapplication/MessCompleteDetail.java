@@ -7,7 +7,9 @@ public class MessCompleteDetail {
     String menus;
     String messName;
     String messOwner;
+
     String messRate;
+    String messHalfRate;
     String messType;
     String remarks;
     String service;
@@ -18,7 +20,7 @@ public class MessCompleteDetail {
 
 
 
-    public MessCompleteDetail(String address, String contactNumber, String guestTiffinCharges, String menus, String messName, String messOwner, String messRate, String messType, String remarks, String service, String feast, String messUID,String photoURL) {
+    public MessCompleteDetail(String address, String contactNumber, String guestTiffinCharges, String menus, String messName, String messOwner, String messRate, String messType, String remarks, String service, String feast, String messUID,String photoURL, String messHalfRate) {
         this.address = address;
         this.contactNumber = contactNumber;
         this.guestTiffinCharges = guestTiffinCharges;
@@ -32,6 +34,7 @@ public class MessCompleteDetail {
         this.feast = feast;
         this.messUID = messUID;
         this.photoURL = photoURL;
+        this.messHalfRate = messHalfRate;
 
     }
 
@@ -143,6 +146,11 @@ public class MessCompleteDetail {
         this.messUID = messUID;
     }
 
+    public String getMessHalfRate() {
+        return messHalfRate;
+    }
 
-
+    public void setMessHalfRate(String messHalfRate) {
+        this.messHalfRate = messHalfRate;
+    }
 }
