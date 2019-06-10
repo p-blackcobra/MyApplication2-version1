@@ -1,9 +1,11 @@
 package com.example.nk.myapplication;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.os.Bundle;
@@ -32,6 +34,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.nk.myapplication.R.color.white;
+
 public class showing_list extends Fragment{
 
     CharSequence[] values = { " Mess Rates "," Rating "," Mess Name "};
@@ -42,7 +46,7 @@ AlertDialog alertDialog1;
     public static int veg, service_type;
     public static String area;
     String keywrd;
-
+    int color;
 
     String area_name;
     private static final String TAG = "Show_list";
@@ -53,18 +57,25 @@ AlertDialog alertDialog1;
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mMessDatabaseReference;
     private SwipeRefreshLayout swipeRefreshLayout;
+
+    @Nullable
+    @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.show_list, container, false);
     }
 
-
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        color=getResources().getColor(white);
+    }
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         area_name = Home.selected_location;
         btn_filter = (Button)getView().findViewById(R.id.filters);
         btn_sortby = (Button)getView().findViewById(R.id.sortby);
-noresult=getView().findViewById(R.id.noresult);
+        noresult=getView().findViewById(R.id.noresult);
         swipeRefreshLayout =(SwipeRefreshLayout)getView().findViewById(R.id.pulltR);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -198,6 +209,7 @@ noresult=getView().findViewById(R.id.noresult);
         mMessListView.setAdapter(mMessAdapter);
         mMessDatabaseReference.addValueEventListener(new ValueEventListener() {
 
+            @SuppressLint("ResourceAsColor")
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 mMessAdapter.clear();
@@ -221,7 +233,7 @@ noresult=getView().findViewById(R.id.noresult);
                 if(mMessAdapter.isEmpty())
                 {
                     noresult.setVisibility(View.VISIBLE);
-                    getView().setBackgroundColor(getResources().getColor(R.color.white));
+                    //getView().setBackgroundColor(white);
                 }
                 else
                 {
@@ -237,10 +249,6 @@ noresult=getView().findViewById(R.id.noresult);
         });
     }
     public void CreateAlertDialogWithRadioButtonGroup(){
-
-
-
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle("Sort By ...");
         builder.setIcon(R.drawable.ic_sort_black_24dp);

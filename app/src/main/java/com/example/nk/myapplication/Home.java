@@ -139,12 +139,6 @@ selected_location = select_area_btn.getText().toString();
 
             }
         });
-
-
-
-
-
-
         getActivity().setTitle("Home");
     }
 

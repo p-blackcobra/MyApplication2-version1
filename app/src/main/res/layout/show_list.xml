@@ -45,6 +45,7 @@
        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
         android:text="@string/noresult"
+        android:background="@color/white"
         />
     <android.support.v4.widget.SwipeRefreshLayout
         android:layout_below="@id/ll1"

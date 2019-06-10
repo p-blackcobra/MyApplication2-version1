@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-
+import android.content.Intent;
 import android.Manifest;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -50,12 +50,10 @@ public class FragmentOne extends Fragment {
     private static final int SMS_PERMISSION_CODE = 0;
 
     SharedPreferences sharedpreferences;
-
-
     private String name = "";
     private int i,j;
     private String contact,phone,mess,address;
-    int flag;
+    public static int flag=0;
     private TextView messNameView;
     private TextView menusTextView;
     private TextView feastTextView;
@@ -203,7 +201,6 @@ public class FragmentOne extends Fragment {
                     Log.w(TAG,"btn fav clicked");
                     SharedPreferences sharedpreferences = getContext().getSharedPreferences(Login.MyPREFERENCES, getContext().MODE_PRIVATE);
                     String ph = sharedpreferences.getString("Phone", "");
-
                     if(!ph.isEmpty()) {
                         i = 0;
                         arr = new ArrayList<String>();
@@ -232,8 +229,11 @@ public class FragmentOne extends Fragment {
                     }
                     else {
                         Toast.makeText(getContext(), "You Must Login First...", Toast.LENGTH_SHORT).show();
-                        Fragment login = new Login();
-                        getFragmentManager().beginTransaction().replace(R.id.login_frame, login).setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+                        flag=1;
+                        Intent mainAct=new Intent(getActivity(),MainActivity.class);
+                        startActivity(mainAct);
+                        //Fragment login = new Login();
+                        //getFragmentManager().beginTransaction().replace(R.id.login_frame, login).setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
                     }
 
                 }
@@ -264,8 +264,11 @@ public class FragmentOne extends Fragment {
                     else
                     {
                         Toast.makeText(getContext(), "You Must Login First...", Toast.LENGTH_SHORT).show();
-                        Fragment login = new Login();
-                        getFragmentManager().beginTransaction().replace(R.id.login_frame, login).setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
+                        flag=1;
+                        Intent mainAct=new Intent(getActivity(),MainActivity.class);
+                        startActivity(mainAct);
+                        //Fragment login = new Login();
+                        //getFragmentManager().beginTransaction().replace(R.id.login_frame, login).setTransitionStyle(FragmentTransaction.TRANSIT_FRAGMENT_FADE).commit();
 
                     }
                 }

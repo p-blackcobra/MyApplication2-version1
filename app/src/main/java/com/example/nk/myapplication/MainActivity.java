@@ -46,7 +46,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setHeaderFields();
         navigationView.setNavigationItemSelectedListener(this);
         hideItem();
-        displaySelectedScreen(R.id.nav_home);
+
+        if(FragmentOne.flag==0) {
+            displaySelectedScreen(R.id.nav_home);
+        }
+        else
+        {
+            displaySelectedScreen(R.id.nav_login);
+        }
         View defView = findViewById(android.R.id.content);
         if(isNetworkAvailable()== false)
         {
